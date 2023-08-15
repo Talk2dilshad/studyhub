@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+html,body{
+    overflow-x: hidden;
+} 
+
+
+.glass_effect {
+    overflow: hidden;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.glass_effect:after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    
+    background: linear-gradient(
+        45deg,
+        transparent 50%,
+        rgba(255, 255, 255, 0.03) 58%,
+        rgba(255, 255, 255, 0.16) 67%,
+        transparent 68%
+    );
+    background-size: 200% 100%;
+    background-position: 165% 0;
+    transition: 0.5s;
+}
+
+.glass_effect:hover:after {
+    background-position: 0% 0;
+}
+
+.glass_effect:hover {
+    box-shadow: 15px 30px 32px rgba(0, 0, 0, 0.25);
+}
+
+.text-gradient {
+    background: linear-gradient(90deg,#4ca5ff 2.34%,#b673f8 100.78%);
+    -webkit-background-clip: text;
+    background-clip: text
+}
+.code-gradient{
+    background: linear-gradient(11deg,#4ca5ff 2.34%,#b673f8 100.78%);
+    -webkit-background-clip: text;
+    background-clip: text
+}
+
+.blue-gradient {
+    background: linear-gradient(90deg,#4ca5ff 2.34%,#9051cf 100.78%);
+}
+
+.font-poppins {
+    font-family: Poppins,sans-serif
+}

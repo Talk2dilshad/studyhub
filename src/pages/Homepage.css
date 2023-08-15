@@ -1,0 +1,48 @@
+.code-border {
+    background: linear-gradient(111.93deg,rgba(14,26,45,.24) -1.4%,rgba(17,30,50,.38) 104.96%);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to right bottom,#ffffff38,#ffffff00);
+}
+
+.code-border::before{
+    border-radius: 12px;
+}
+
+.homepage_bg{
+background: url('../assets/Images/bghome.svg');
+
+}
+
+.spacer{
+    aspect-ratio: 16/9;
+    width:100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.layer1 {
+    background-image: url('../assets/Images/wavecode.svg');
+    bottom: 0;
+    margin-left: -1px;
+}
+@media (min-width: 768px) {
+    .layer1 {
+        background-image: url('../assets/Images/wavecode.svg');
+        margin-top: -380px;
+        bottom: 0;
+        margin-left: -1px;
+    }
+}
+
+.layer2{
+    background-image: url('../assets/Images/waveteaching.svg');
+    margin-top: -10px;
+    margin-left: -1px;
+}
