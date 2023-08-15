@@ -59,7 +59,7 @@ const Home = () => {
         </>
 
         {/* button */}
-        <div className="flex flex-col gap-1 md:gap-8 my-4">
+        <div className="flex flex-col md:flex-row gap-1 md:gap-8 my-4">
           <CTAbutton linkto={"signup"}>Learn More</CTAbutton>
           <CTAbutton linkto={"contactus"}>Book a Demo</CTAbutton>
         </div>
@@ -67,7 +67,7 @@ const Home = () => {
 
         {/* video */}
         <div className="mx-3 my-10 w-8/12 shadow-[10px_-5px_50px_-5px] shadow-blue-200 rounded-lg">
-          <video className="rounded-lg sm:w-full" muted autoPlay loop>
+          <video className="rounded-lg" muted autoPlay loop>
             <source src={banner} type="video/mp4" />
           </video>
         </div>
@@ -187,7 +187,7 @@ const Home = () => {
           </div>
 
           {/* TimeLine section */}
-          <div className="flex flex-col lg:flex-row gap-20 mb-20 items-center">
+          <div className="flex flex-col lg:flex-row  mt-20 md:mt-5 gap-20 mb-20 items-center ">
             <TimeLineSection />
           </div>
           <div>
@@ -197,9 +197,9 @@ const Home = () => {
       </div>
 
       {/* section 3 */}
-      <div className="relative mx-auto flex flex-col w-11/12 items-center justify-between gap-7 mt-60 text-white  mb-auto  spacer layer2 ">
+      <div className="relative mx-auto flex flex-col w-11/12 items-center justify-between mt-60 text-white  mb-auto  spacer layer2 ">
         <div>
-          <div class="flex flex-col lg:flex-row gap-5 items-center mt-20">
+          <div class="flex flex-col lg:flex-row gap-5 items-center mt-28 lg:mt-20">
             <div>
               <dotlottie-player
                 src="https://lottie.host/b8fc3b22-2c4f-4946-bee2-f46db325fb3b/lRdURC7aZE.lottie"
@@ -208,8 +208,8 @@ const Home = () => {
                 style={{ height: '100%', width: '100%' }}
               />
             </div>
-            <div className="lg:w-[50%] flex gap-5 flex-col justify-center">
-              <h1 className="text-4xl font-semibold ">
+            <div className="lg:w-[50%] flex gap-5 flex-col justify-center px-10 mb-10">
+              <h1 className="text-4xl font-semibold">
                 Become an <HighlightText text={"instructor"} bgColor={"text-gradient"}/>
               </h1>
               <p className="font-medium text-[16px] text-justify w-[90%] text-richblack-300">

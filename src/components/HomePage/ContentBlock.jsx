@@ -16,7 +16,7 @@ const ContentBlock = ({heading,subheading,ctabtn1,ctabtn2}) => {
         {ctabtn1.children}
         </div>
       </CTAbutton>
-      <div className="hidden md:visible">
+      <div className="hidden md:block">
       <CTAbutton linkto={ctabtn2.linkto}>
         {ctabtn2.children}
       </CTAbutton>
