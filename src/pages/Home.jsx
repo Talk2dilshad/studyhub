@@ -8,8 +8,6 @@ import ContentBlock from "../components/HomePage/ContentBlock";
 import "./Homepage.css";
 import '@dotlottie/player-component';
 
-// importing video
-import banner from "../assets/Images/banner.mp4";
 import TimeLineSection from "../components/HomePage/TimeLineSection";
 import LearningLanguageSection from "../components/HomePage/LearningLanguageSection";
 import Footer from "../components/common/Footer";
@@ -65,15 +63,20 @@ const Home = () => {
         </div>
         {/* button end */}
 
-        {/* video */}
-        <div className="mx-3 my-10 w-8/12 shadow-[10px_-5px_50px_-5px] shadow-blue-200 rounded-lg">
-          <video className="rounded-lg" muted autoPlay loop>
-            <source src={banner} type="video/mp4" />
-          </video>
-        </div>
+        {/* video
+        <div className="mx-3 my-10 w-8/12 rounded-lg text-center">
+        
+          <dotlottie-player
+                src="https://lottie.host/ff1e9617-34fb-43a7-91a1-33968a9e37a5/TSmiMzKTYe.lottie"
+                autoplay
+                loop
+                style={{ height: '50%', width: '50%' }}
+              />
+
+        </div> */}
 
         {/* animation section 1*/}
-        <div className="flex lg:flex-row flex-col justify-between gap-10 md:px-24 md:py-28 ">
+        <div className="flex lg:flex-row flex-col justify-between items-center gap-10 py-10 md:px-24 md:py-10 ">
           <ContentBlock
             heading={
               <div className="text-4xl font-semibold">
@@ -95,26 +98,15 @@ const Home = () => {
             ctabtn1={{ children: "Try it Yourself", linkto: "/signup" }}
             ctabtn2={{ children: "Learn More", linkto: "/contactus" }}
           />
-
-          <CodeBlock
-            code={`<!DOCTYPE html>\n<html>\n<head>\n<title>Student</title>\n</head>\n<body>\n<section>\n<h2>Hey 👋,</h2>\n<p>Welcome to StudyHub</p>\n</section>\n</body>\n</html>`}
-            line={
-              <>
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
-                <p>5</p>
-                <p>6</p>
-                <p>7</p>
-                <p>8</p>
-                <p>9</p>
-                <p>10</p>
-                <p>11</p>
-                <p>12</p>
-              </>
-            }
-          />
+          <div className="lg:w-[50%] justify-center">
+          <dotlottie-player 
+                src="https://lottie.host/ff1e9617-34fb-43a7-91a1-33968a9e37a5/TSmiMzKTYe.lottie"
+                autoplay
+                loop
+                style={{ height: '100%', width: '100%' }}
+              />
+          </div>
+          
         </div>
         {/* animation section 2*/}
         <div className="flex lg:flex-row-reverse flex-col justify-between gap-10 md:px-24 py-28 sm:pb-80 ">
@@ -134,8 +126,8 @@ const Home = () => {
             ctabtn1={{ children: "Continue Lesson", linkto: "/signin" }}
             ctabtn2={{ children: "Learn More", linkto: "/contactus" }}
           />
-
           <CodeBlock
+            code={`<!DOCTYPE html>\n<html>\n<head>\n<title>Student</title>\n</head>\n<body>\n<section>\n<h2>Hey 👋,</h2>\n<p>Welcome to StudyHub</p>\n</section>\n</body>\n</html>`}
             line={
               <>
                 <p>1</p>
@@ -148,10 +140,12 @@ const Home = () => {
                 <p>8</p>
                 <p>9</p>
                 <p>10</p>
+                <p>11</p>
+                <p>12</p>
               </>
             }
-            code={`Java\npublic class WelcomeMessage{\npublic static void main(String[] args){\nString greeting = "Hello";\nString target = "champions";\nString message = "Let dive into Course";\nSystem.out.print(greeting + " " + target + "! ");\nSystem.out.println(message);\n}\n}`}
           />
+          
         </div>
         {/* !section 1 end */}
       </div>
