@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { useRef, useEffect }from "react";
 import { Link } from "react-router-dom";
 import HighlightText from "../components/HomePage/HighlightText";
 import CTAbutton from "../components/HomePage/CTAbutton";
@@ -12,19 +12,70 @@ import TimeLineSection from "../components/HomePage/TimeLineSection";
 import LearningLanguageSection from "../components/HomePage/LearningLanguageSection";
 import Footer from "../components/common/Footer";
 
+
+//animation on visible screen
+
 const Home = () => {
+  const animationRef = useRef(null);
+
+  useEffect(() => {
+    let isUnmounted = false;
+    const currentAnimation = animationRef.current; // Capture the value here
+
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 100px 0px',
+      threshold: 0.5,
+    };
+    
+    let pauseTimeout;
+
+    const callback = (entries, observer) => {
+      entries.forEach(entry => {
+        if (!isUnmounted) {
+          if (entry.isIntersecting) {
+            currentAnimation.play(); // Use the captured value here
+            pauseTimeout = setTimeout(() => {
+              if (!isUnmounted) {
+                currentAnimation.pause(); // Use the captured value here
+              }
+            }, 4100);
+          } else {
+            currentAnimation.pause(); // Use the captured value here
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+
+    if (currentAnimation) {
+      observer.observe(currentAnimation); // Use the captured value here
+    }
+
+    return () => {
+      isUnmounted = true;
+      if (currentAnimation) {
+        clearTimeout(pauseTimeout);
+        currentAnimation.pause(); // Use the captured value here
+        observer.unobserve(currentAnimation); // Use the captured value here
+      }
+    };
+  }, []);
+
+
+
   return (
     <div>
       {/* section 1 */}
       <div className="relative mx-auto flex flex-col w-11/12 items-center justify-between text-white">
-        <div className="mt-20 ">
+        <div className="mt-32">
           <Link to={"/signup"}>
             <div
               className="flex flex-row items-center mx-auto rounded-full px-4 py-2 gap-2
                 text-richblack-200 font-bold group  transition-all duration-200 
                 bg-richblack-800 hover:bg-richblack-900  glass_effect hover:scale-95
-                "
-            >
+            ">
               <p>Join for Free</p>
               <svg
                 width="16"
@@ -66,17 +117,16 @@ const Home = () => {
         {/* video
         <div className="mx-3 my-10 w-8/12 rounded-lg text-center">
         
-          <dotlottie-player
-                src="https://lottie.host/ff1e9617-34fb-43a7-91a1-33968a9e37a5/TSmiMzKTYe.lottie"
-                autoplay
-                loop
-                style={{ height: '50%', width: '50%' }}
-              />
+        <div className="mx-3 my-10 w-8/12 shadow-[10px_-5px_50px_-5px] shadow-blue-200 rounded-lg">
+          <video className="rounded-lg" muted autoPlay loop>
+            <source src={banner} type="video/mp4" />
+          </video>
+        </div>
 
         </div> */}
 
         {/* animation section 1*/}
-        <div className="flex lg:flex-row flex-col justify-between items-center gap-10 py-10 md:px-24 md:py-10 ">
+        <div className="flex lg:flex-row flex-col justify-between items-center gap-10 py-10 lg:mt-10 md:px-24 md:py-10 ">
           <ContentBlock
             heading={
               <div className="text-4xl font-semibold">
@@ -99,14 +149,13 @@ const Home = () => {
             ctabtn2={{ children: "Learn More", linkto: "/contactus" }}
           />
           <div className="lg:w-[50%] justify-center">
-          <dotlottie-player 
-                src="https://lottie.host/ff1e9617-34fb-43a7-91a1-33968a9e37a5/TSmiMzKTYe.lottie"
-                autoplay
-                loop
-                style={{ height: '100%', width: '100%' }}
-              />
+            <dotlottie-player
+              ref={animationRef}
+              src="https://lottie.host/ff1e9617-34fb-43a7-91a1-33968a9e37a5/TSmiMzKTYe.lottie"
+              autoplay
+              style={{ height: "100%", width: "100%" }}
+            />
           </div>
-          
         </div>
         {/* animation section 2*/}
         <div className="flex lg:flex-row-reverse flex-col justify-between gap-10 md:px-24 py-28 sm:pb-80 ">
@@ -130,22 +179,10 @@ const Home = () => {
             code={`<!DOCTYPE html>\n<html>\n<head>\n<title>Student</title>\n</head>\n<body>\n<section>\n<h2>Hey 👋,</h2>\n<p>Welcome to StudyHub</p>\n</section>\n</body>\n</html>`}
             line={
               <>
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
-                <p>5</p>
-                <p>6</p>
-                <p>7</p>
-                <p>8</p>
-                <p>9</p>
-                <p>10</p>
-                <p>11</p>
-                <p>12</p>
+                <p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p>
               </>
             }
           />
-          
         </div>
         {/* !section 1 end */}
       </div>
@@ -199,12 +236,13 @@ const Home = () => {
                 src="https://lottie.host/b8fc3b22-2c4f-4946-bee2-f46db325fb3b/lRdURC7aZE.lottie"
                 autoplay
                 loop
-                style={{ height: '100%', width: '100%' }}
+                style={{ height: "100%", width: "100%" }}
               />
             </div>
             <div className="lg:w-[50%] flex gap-5 flex-col justify-center px-10 mb-10">
               <h1 className="text-4xl font-semibold">
-                Become an <HighlightText text={"instructor"} bgColor={"text-gradient"}/>
+                Become an{" "}
+                <HighlightText text={"instructor"} bgColor={"text-gradient"} />
               </h1>
               <p className="font-medium text-[16px] text-justify w-[90%] text-richblack-300">
                 Instructors from around the world teach millions of students on
@@ -212,17 +250,18 @@ const Home = () => {
                 love.
               </p>
               <div className="w-fit">
-                <CTAbutton linkto={"/signup"}>{"Start Teaching Today"}</CTAbutton>
+                <CTAbutton linkto={"/signup"}>
+                  {"Start Teaching Today"}
+                </CTAbutton>
               </div>
             </div>
           </div>
         </div>
         {/* teacher part complete */}
-
       </div>
 
       {/* footer */}
-      <Footer/>
+      <Footer />
     </div>
   );
 };

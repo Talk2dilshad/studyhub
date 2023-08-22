@@ -10,7 +10,7 @@ html,body{
 
 .glass_effect {
     overflow: hidden;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.22);
+    box-shadow: 0 8px 10px 0 rgba(0, 0, 0, 0.22);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 2px solid rgba(255, 255, 255, 0.18);
@@ -41,7 +41,7 @@ html,body{
 }
 
 .glass_effect:hover {
-    box-shadow: 15px 30px 32px rgba(0, 0, 0, 0.25);
+    box-shadow: 15px 30px 32px rgba(0, 0, 0, 0.20);
 }
 
 .text-gradient {
