@@ -27,11 +27,14 @@ exports.updateProfile = async(req,res) => {
         profileDetail.gender = gender;
         profileDetail.contactNumber = contactNumber;
         await profileDetail.save();
+
+        const updatedUserDetail = await User.findById(id).populate("profile");
+        updatedUserDetail.password = undefined;
         //return response
         return res.status(200).json({
             success:true,
             message:"profileUpdated",
-            data:profileDetail
+            data:updatedUserDetail
         })
 
     }catch(error){
@@ -155,7 +158,7 @@ exports.updateDisplayPicture = async(req,res) =>{
         const displayPicture = req.files.displayPicture;
         const userId = req.user.id;
         const quality = 5;
-        const image = await uploadToCloudinary(displayPicture,process.env.FOLDER_NAME,1000,1000,quality);
+        const image = await uploadToCloudinary(displayPicture,process.env.FOLDER_NAME,1000,quality);
         const updatedProfilePic = await User.findByIdAndUpdate({_id:userId},{profile_pic:image.secure_url},{new:true})
 
         res.send({

@@ -1,0 +1,22 @@
+.layerAbout {
+    background-image: url("../assets/Images/AboutWave.svg");
+    margin-top: -280px;
+    margin-left: -1px;
+}
+
+
+@media (min-width: 768px) {
+.layerAbout {
+    background-image: url("../assets/Images/AboutWave.svg");
+    margin-top: -90px;
+    z-index: 1;
+    margin-left: -1px;
+}
+}
+.space {
+    aspect-ratio: 16/9;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

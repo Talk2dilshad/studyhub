@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ProfileDropDown = () => {
+const LearningGrid = () => {
   return (
     <div>
         
@@ -8,4 +8,4 @@ const ProfileDropDown = () => {
   )
 }
 
-export default ProfileDropDown
+export default LearningGrid

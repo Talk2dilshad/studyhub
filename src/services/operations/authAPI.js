@@ -1,5 +1,5 @@
 import { toast } from "react-hot-toast"
-
+import CryptoJS from "crypto-js"
 import { setLoading, setToken } from "../../slices/authSlice"
 import { resetCart } from "../../slices/cartSlice"
 import { setUser } from "../../slices/profileSlice"
@@ -13,6 +13,8 @@ const {
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
 } = endpoints
+
+const secretKey = process.env.REACT_APP_ENCRYPTION_KEY;
 
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
@@ -44,11 +46,11 @@ export function sendOtp(email, navigate) {
 
 export function signUp(
   accountType,
-  firstName,
-  lastName,
+  firstname,
+  lastname,
   email,
   password,
-  confirmPassword,
+  confirmpassword,
   otp,
   navigate
 ) {
@@ -58,11 +60,11 @@ export function signUp(
     try {
       const response = await apiConnector("POST", SIGNUP_API, {
         accountType,
-        firstName,
-        lastName,
+        firstname,
+        lastname,
         email,
         password,
-        confirmPassword,
+        confirmpassword,
         otp,
       })
 
@@ -84,6 +86,7 @@ export function signUp(
 }
 
 export function login(email, password, navigate) {
+  
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
@@ -101,11 +104,20 @@ export function login(email, password, navigate) {
 
       toast.success("Login Successful")
       dispatch(setToken(response.data.token))
-      const userImage = response.data?.user?.image
-        ? response.data.user.image
-        : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
-      dispatch(setUser({ ...response.data.user, image: userImage }))
-      localStorage.setItem("token", JSON.stringify(response.data.token))
+      const userImage = response.data?.user?.profile_pic
+        ? response.data.user.profile_pic
+        : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstname} ${response.data.user.lastname}`
+      
+      const encryptedToken = CryptoJS.AES.encrypt(response.data.token, secretKey).toString();
+      localStorage.setItem("token", encryptedToken);
+      
+      dispatch(setUser({ ...response.data.user, profile_pic: userImage }))
+      const encryptedUser = CryptoJS.AES.encrypt(
+        JSON.stringify({ ...response.data.user, profile_pic: userImage }),
+        secretKey
+      ).toString();
+      localStorage.setItem('user', encryptedUser);
+
       navigate("/dashboard/my-profile")
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
@@ -136,22 +148,20 @@ export function getPasswordResetToken(email, setEmailSent) {
     } catch (error) {
       console.log("RESETPASSTOKEN ERROR............", error)
       toast.error("Failed To Send Reset Email")
+      toast.error(error.message)
     }
     toast.dismiss(toastId)
     dispatch(setLoading(false))
   }
 }
 
-export function resetPassword(password, confirmPassword, token, navigate) {
+export function resetPassword(password,confirmPassword,token,userId,navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
     try {
-      const response = await apiConnector("POST", RESETPASSWORD_API, {
-        password,
-        confirmPassword,
-        token,
-      })
+      console.log("auth api reset password :  " ,token)
+      const response = await apiConnector("POST", RESETPASSWORD_API, {password,confirmPassword,token,userId})
 
       console.log("RESETPASSWORD RESPONSE............", response)
 

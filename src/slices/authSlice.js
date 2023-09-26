@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import CryptoJS from "crypto-js";
+const secretKey = process.env.REACT_APP_ENCRYPTION_KEY;
+
 
 const initialState = {
   signupData: null,
   loading: false,
-  token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,
+  token: localStorage.getItem('token')
+  ? CryptoJS.AES.decrypt(localStorage.getItem('token'), secretKey).toString(CryptoJS.enc.Utf8)
+  : null,
+  // user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null,
 };
 
 const authSlice = createSlice({

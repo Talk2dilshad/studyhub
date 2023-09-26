@@ -1,5 +1,5 @@
-import React, { useRef, useEffect }from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useEffect, useState }from "react";
+import { Link} from "react-router-dom";
 import HighlightText from "../components/HomePage/HighlightText";
 import CTAbutton from "../components/HomePage/CTAbutton";
 import CodeBlock from "../components/HomePage/CodeBlock";
@@ -13,11 +13,11 @@ import LearningLanguageSection from "../components/HomePage/LearningLanguageSect
 import Footer from "../components/common/Footer";
 
 
-//animation on visible screen
 
 const Home = () => {
-  const animationRef = useRef(null);
-
+// ------------------------  Animation logic  -----------------------------  
+const animationRef = useRef(null);
+const animationDuration = 4000;
   useEffect(() => {
     let isUnmounted = false;
     const currentAnimation = animationRef.current; // Capture the value here
@@ -34,25 +34,29 @@ const Home = () => {
       entries.forEach(entry => {
         if (!isUnmounted) {
           if (entry.isIntersecting) {
-            currentAnimation.play(); // Use the captured value here
+            currentAnimation.play();
+            clearTimeout(pauseTimeout); // Clear the timeout if play is triggered again
             pauseTimeout = setTimeout(() => {
               if (!isUnmounted) {
-                currentAnimation.pause(); // Use the captured value here
+                currentAnimation.pause();
+                currentAnimation.currentTime = 0; // Reset the animation to the beginning
               }
-            }, 4100);
+            }, animationDuration);
           } else {
-            currentAnimation.pause(); // Use the captured value here
+            clearTimeout(pauseTimeout); // Clear the timeout if not intersecting
+            currentAnimation.pause();
           }
         }
       });
     };
-
+    
+    
     const observer = new IntersectionObserver(callback, options);
-
+    
     if (currentAnimation) {
       observer.observe(currentAnimation); // Use the captured value here
     }
-
+    
     return () => {
       isUnmounted = true;
       if (currentAnimation) {
@@ -62,14 +66,60 @@ const Home = () => {
       }
     };
   }, []);
+  // ------------------------  Animation logic end  -----------------------------  
+  
+  
+  
+  //  --------------------------- glow effect ---------------------------------
 
 
+  const containerId = "containerId1"
+  const [position,setPosition] = useState(null);
+
+  useEffect(() => {
+    function handleMove(event) {
+      const div = document.getElementById(containerId);
+      const rect = div.getBoundingClientRect();
+      let x, y;
+  
+      if (event.type === 'mousemove') {
+        x = event.clientX - rect.left;
+        y = event.clientY - rect.top;
+      }
+  
+      const newPosition = {
+        left: `${x}px`,
+        top: `${y}px`,
+        backgroundColor: '#09e0fe'
+      };
+  
+      setPosition(newPosition);
+    }
+  
+    function handleLeave() {
+      setPosition(null);
+    }
+  
+    const div = document.getElementById(containerId);
+  
+    div.addEventListener('mousemove', handleMove);
+    div.addEventListener('mouseleave', handleLeave);
+    
+  
+    return () => {
+      div.removeEventListener('mousemove', handleMove);
+      div.removeEventListener('mouseleave', handleLeave);
+    };
+  }, []);
 
   return (
     <div>
       {/* section 1 */}
-      <div className="relative mx-auto flex flex-col w-11/12 items-center justify-between text-white">
-        <div className="mt-32">
+      <div className="relative mx-auto flex flex-col w-11/12 items-center justify-between text-white" id={containerId}>
+        
+        {/* bubble */}
+        <div className="bubble" style={position ? position: {display: 'none'}}></div>
+        <div className="mt-32" >
           <Link to={"/signup"}>
             <div
               className="flex flex-row items-center mx-auto rounded-full px-4 py-2 gap-2
@@ -126,7 +176,7 @@ const Home = () => {
         </div> */}
 
         {/* animation section 1*/}
-        <div className="flex lg:flex-row flex-col justify-between items-center gap-10 py-10 lg:mt-10 md:px-24 md:py-10 ">
+        <div className="flex lg:flex-row flex-col justify-between items-center gap-10 py-10 lg:mt-10 md:px-24 md:pt-10">
           <ContentBlock
             heading={
               <div className="text-4xl font-semibold">
@@ -151,14 +201,14 @@ const Home = () => {
           <div className="lg:w-[50%] justify-center">
             <dotlottie-player
               ref={animationRef}
-              src="https://lottie.host/ff1e9617-34fb-43a7-91a1-33968a9e37a5/TSmiMzKTYe.lottie"
               autoplay
+              src="https://lottie.host/ff1e9617-34fb-43a7-91a1-33968a9e37a5/TSmiMzKTYe.lottie"
               style={{ height: "100%", width: "100%" }}
             />
           </div>
         </div>
         {/* animation section 2*/}
-        <div className="flex lg:flex-row-reverse flex-col justify-between gap-10 md:px-24 py-28 sm:pb-80 ">
+        <div className="flex lg:flex-row-reverse flex-col justify-between gap-10 md:px-24 py-28 sm:pb-80">
           <ContentBlock
             heading={
               <div className="text-4xl font-semibold">
@@ -172,7 +222,7 @@ const Home = () => {
                 you'll be writing real code from your very first lesson.
               </p>
             }
-            ctabtn1={{ children: "Continue Lesson", linkto: "/signin" }}
+            ctabtn1={{ children: "Continue Lesson", linkto: "/login" }}
             ctabtn2={{ children: "Learn More", linkto: "/contactus" }}
           />
           <CodeBlock
@@ -188,7 +238,7 @@ const Home = () => {
       </div>
 
       {/* layer transformation */}
-      <div className="spacer layer1 "></div>
+      <div className="spacer layer1"></div>
 
       {/* section 2 */}
       <div className="bg-pure-greys-5 text-richblack-700 ">
@@ -219,7 +269,7 @@ const Home = () => {
 
           {/* TimeLine section */}
           <div className="flex flex-col lg:flex-row  mt-20 md:mt-5 gap-20 mb-20 items-center ">
-            <TimeLineSection />
+          <TimeLineSection />
           </div>
           <div>
             <LearningLanguageSection />
@@ -228,9 +278,9 @@ const Home = () => {
       </div>
 
       {/* section 3 */}
-      <div className="relative mx-auto flex flex-col w-11/12 items-center justify-between mt-60 text-white  mb-auto  spacer layer2 ">
-        <div>
-          <div class="flex flex-col lg:flex-row gap-5 items-center mt-28 lg:mt-20">
+      <div className="relative mx-auto flex flex-col w-11/12 items-center justify-between mt-60 text-white  mb-auto  spacer layer2 " >
+        <div className="mt-44 mb-10 lg:mt-24">
+          <div class="flex flex-col lg:flex-row gap-5 items-center ">
             <div>
               <dotlottie-player
                 src="https://lottie.host/b8fc3b22-2c4f-4946-bee2-f46db325fb3b/lRdURC7aZE.lottie"
@@ -239,8 +289,9 @@ const Home = () => {
                 style={{ height: "100%", width: "100%" }}
               />
             </div>
-            <div className="lg:w-[50%] flex gap-5 flex-col justify-center px-10 mb-10">
-              <h1 className="text-4xl font-semibold">
+            <div className="lg:w-[50%] flex gap-5 flex-col-reverse lg:flex-col  justify-center px-10 mb-10">
+              <div>
+              <h1 className="text-4xl font-semibold mb-2">
                 Become an{" "}
                 <HighlightText text={"instructor"} bgColor={"text-gradient"} />
               </h1>
@@ -249,6 +300,7 @@ const Home = () => {
                 StudyHub. We provide the tools and skills to teach what you
                 love.
               </p>
+              </div>
               <div className="w-fit">
                 <CTAbutton linkto={"/signup"}>
                   {"Start Teaching Today"}

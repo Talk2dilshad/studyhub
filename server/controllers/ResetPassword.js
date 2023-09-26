@@ -2,7 +2,7 @@ const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const clientURL = 'http://localhost:4000';
+const clientURL = 'http://localhost:3000';
 const {passwordUpdated} = require("../mail/templates/passwordUpdate");
 require("dotenv").config();
 
@@ -10,11 +10,12 @@ require("dotenv").config();
 exports.resetPasswordToken = async (req, res) => {
     try {
 		const email = req.body.email;
+		
 		const user = await User.findOne({ email: email });
 		if (!user) {
 			return res.json({
 				success: false,
-				message: `This Email: ${email} is not Registered With Us Enter a Valid Email `,
+				message: `${email} is not registered !`,
 			});
 		}
 		const token = crypto.randomBytes(32).toString("hex");
@@ -28,10 +29,10 @@ exports.resetPasswordToken = async (req, res) => {
 			{ new: true }
 		);
 		console.log("DETAILS", updatedDetails);
-
+	    const id = user._id;
         // Create the reset password link
-        const link = `${clientURL}/passwordReset?token=${token}&id=${user._id}`;
-
+		const link = `${clientURL}/update-password/${id}/${token}`;
+		// http://localhost:3000/update-password/${token}
         // Send email with the reset password link
         await mailSender(
             email,
@@ -48,13 +49,12 @@ exports.resetPasswordToken = async (req, res) => {
 		res.json({
 			success: true,
 			message:
-				"Email Sent Successfully, Please Check Your Email to Continue Further",
+				"Email Sent Successfully, Please Check Your Email to Continue Further!",
 		});
 	} catch (error) {
 		return res.json({
-			error: error.message,
+			error: `Try again later`,
 			success: false,
-			message: `Some Error in Sending the Reset Message`,
 		});
 	}
 };
@@ -91,7 +91,8 @@ exports.resetPassword = async (req, res) => {
           );
 		// notify user by mail password reset
 		const user =await User.findById({_id:userId})
-		const emailbody = passwordUpdated(user.email,`${user.firstname}`+" "+`${user.lastname}`)
+		const name = user.firstname;
+		const emailbody = passwordUpdated(user.email,name)
 		await mailSender(user.email,"StudyNotion - password updated !",emailbody);
 		
 		res.json({

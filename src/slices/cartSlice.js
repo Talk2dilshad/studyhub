@@ -23,7 +23,7 @@ const cartSlice = createSlice({
 
       if (index >= 0) {
         // If the course is already in the cart, do not modify the quantity
-        toast.error("Course already in cart")
+        toast.error("Course already exists in cart")
         return
       }
       // If the course is not in the cart, add it to the cart

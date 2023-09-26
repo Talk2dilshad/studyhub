@@ -166,7 +166,7 @@ exports.login = async(req,res) =>{
         }
 
         // check user exit in DB 
-        const user = await User.findOne({email});
+        const user = await User.findOne({email}).populate("profile");
         if(!user){
             return res.status(401).json({
                 success:false,
@@ -192,6 +192,8 @@ exports.login = async(req,res) =>{
             const options = { 
                 expires: new Date(Date.now() + 3*4*60*60*100),
                 httpOnly:true,
+                sameSite: 'strict', // or 'lax' or 'none' based on your requirements
+                secure: true, // Remember to set 'secure' if using 'sameSite=none'
             }
             //create cookie and send response
             res.cookie("token",token,options).status(200).json({

@@ -4,7 +4,7 @@ const router = express.Router();
 
 //import controller - course
 // const {createCourse,getAllCourses,getCourseDetails,} = require("../controllers/Course");
-const {createCourse,getAllCourses,getCourseDetails} = require("../controllers/Course");
+const {createCourse,getAllCourses,getCourseDetails,editCourse} = require("../controllers/Course");
 
 // - Section
 const {createSection,updateSection,deleteSection} = require("../controllers/Section");
@@ -25,6 +25,8 @@ const {auth,isStudent,isAdmin, isInstructor} = require("../middlewares/auth");
 // *********************************************************************************************************
 
 router.post("/createCourse",auth,isInstructor,createCourse)
+//edit course routes
+router.post("/editCourse",auth,isInstructor,editCourse)
 //Section Route
 router.post("/addSection",auth,isInstructor,createSection)
 router.post("/updateSection",auth,isInstructor,updateSection)

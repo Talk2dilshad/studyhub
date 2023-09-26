@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 
 import { login } from "../../services/operations/authAPI"
+import { FaArrowRight } from "react-icons/fa"
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -48,7 +49,7 @@ function LoginForm() {
           style={{
             boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
           }}
-          className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
+          className="w-full rounded-[0.5rem] bg-richblack-5 p-[12px] "
         />
       </label>
       <label className="relative">
@@ -65,7 +66,7 @@ function LoginForm() {
           style={{
             boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
           }}
-          className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-12 text-richblack-5"
+          className="w-full rounded-[0.5rem] bg-richblack-5 p-[12px] pr-12"
         />
         <span
           onClick={() => setShowPassword((prev) => !prev)}
@@ -85,9 +86,11 @@ function LoginForm() {
       </label>
       <button
         type="submit"
-        className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900"
       >
+        <div className={`flex justify-center items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient  px-6 py-3 gap-2 rounded-full hover:scale-95 transition-all duration-200`}>
         Sign In
+        <FaArrowRight/>
+        </div>
       </button>
     </form>
   )

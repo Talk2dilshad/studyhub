@@ -4,8 +4,8 @@ import { VscDashboard, VscSignOut } from "react-icons/vsc"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 
-import useOnClickOutside from "../../../hooks/useOnClickOutside"
-import { logout } from "../../../services/operations/authAPI"
+import useOnClickOutside from "../../hooks/useOnClickOutside"
+import {logout} from "../../services/operations/authAPI"
 
 export default function ProfileDropdown() {
   const { user } = useSelector((state) => state.profile)
@@ -19,10 +19,10 @@ export default function ProfileDropdown() {
   if (!user) return null
 
   return (
-    <button className="relative" onClick={() => setOpen(true)}>
-      <div className="flex items-center gap-x-1">
+    <button className="relative ml-5" onClick={() => setOpen(true)}>
+      <div className="flex items-center gap-x-2">
         <img
-          src={user?.image}
+          src={user?.profile_pic}
           alt={`profile-${user?.firstName}`}
           className="aspect-square w-[30px] rounded-full object-cover"
         />

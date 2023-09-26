@@ -11,19 +11,19 @@ function isFileTypeSupport(type,supportedTypes){
 exports.CreateSubSection = async(req,res) =>{
     try{
         //data fetch
-        const {sectionId,title,timeDuration,description} = req.body;
+        const {sectionId,title,description} = req.body;
         //validation
-        if(!sectionId|| !title|| !timeDuration|| !description){
-            return res.status(400).json({
+        if(!sectionId|| !title || !description){
+            return res.status(404).json({
                 success:false,
                 message:"missing properties !"
         })};
         //fetch file
-        const VideoFile = req.files.videoFile;
+        const video = req.files.video;
         //validate file
         const supportedTypes = ["mp4","mpeg","wmv"];
-        console.log("video des",VideoFile);
-        const fileType = VideoFile.name.split('.')[1].toLowerCase();
+        console.log("video des",video);
+        const fileType = video.name.split('.')[1].toLowerCase();
         //check file type
         if(!isFileTypeSupport(fileType,supportedTypes))
         {
@@ -32,24 +32,24 @@ exports.CreateSubSection = async(req,res) =>{
                 message:"file format unsupported !"
             })
         }
-        const uploadFile = await uploadToCloudinary(VideoFile,process.env.FOLDER_NAME);
+        const uploadFile = await uploadToCloudinary(video,process.env.FOLDER_NAME,null,60);
 
         //create sub-Section
         const SubSectionDB = await SubSection.create({
             title,
-            timeDuration,
+            timeDuration: `${uploadFile.duration}`,
             description,
             videoUrl:uploadFile.secure_url,
         })
 
         //update data in section
-        const updateSection = await Section.findByIdAndUpdate(sectionId,{$push:{subSection:SubSectionDB._id}},{new:true}).populate("subSection").exec();
+        const updatedSection = await Section.findByIdAndUpdate(sectionId,{$push:{subSection:SubSectionDB._id}},{new:true}).populate("subSection").exec();
 
         //send send res
         return res.status(200).json({
             success:true,
             message:"SubSection added",
-            data:updateSection
+            data:updatedSection
         })
 
 

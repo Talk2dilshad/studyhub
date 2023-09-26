@@ -43,15 +43,15 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpires: {
         type: Date,
     },
-    profile:[{
+    profile:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'Profile'   
-    }],
+    },
     courses:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:'Course'
+            ref:'Courses'
         }
     ],
     courseProgress:[{
@@ -60,7 +60,6 @@ const userSchema = new mongoose.Schema({
     }],
     profile_pic:{
         type:String,
-        required:true
     }
 
 },{timestamps:true});

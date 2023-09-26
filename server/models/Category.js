@@ -7,10 +7,12 @@ const CategorySchema = new mongoose.Schema({
     description:{
         type:String,
     },
-    course:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Courses'
-    }
+    courses: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Courses",
+		},
+	],
 
 })
 

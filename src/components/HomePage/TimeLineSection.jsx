@@ -36,7 +36,7 @@ const TimeLineSection = () => {
                     const isLastIndex = index === timeLine.length - 1;
                     return (
                         <div className='flex flex-col lg:gap-3' key={index}>
-                            <div class="flex gap-6">
+                            <div className="flex gap-6">
                                 <div className='w-[52px] h-[52px] bg-white rounded-full flex justify-center items-center shadow-[#00000012] shadow-[0_0_62px_0]'>
                                     <img src={element.logo} alt={element.heading}/>
                                 </div>

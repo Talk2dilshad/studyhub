@@ -4,7 +4,7 @@ import logo from "../../assets/Logo/Logo-Small-Light.png"
 import {NavbarLinks} from "../../data/navbar-links"
 import { useSelector } from 'react-redux'
 import {FiShoppingCart} from "react-icons/fi"
-import ProfileDropDown from '../HomePage/ProfileDropDown'
+import ProfileDropdown from '../Auth/ProfileDropDown'
 import { apiConnector } from '../../services/microservices'
 import { categories } from '../../services/apis'
 import {BiSolidChevronDown} from "react-icons/bi"
@@ -15,13 +15,13 @@ const Navbar = () => {
   const {user} = useSelector( (state) => state.profile);
   const {totalItems} = useSelector( (state) => state.cart);
 
+  console.log(token,user,totalItems);
+  
   //api call process
   const [subLinks,setSubLinks] = useState([]);
-  console.log(subLinks,"sublink")
   const fetchSubLinks = async () => {
     try{
       const result = await apiConnector("GET",categories.CATEGORIES_API);
-        console.log("printing result : ",result);
         setSubLinks(result.data.data); 
     }
     catch(error){
@@ -34,8 +34,8 @@ const Navbar = () => {
   },[])
 
   return (
-    <div className='h-14 fixed top-0 z-99 w-full backdrop-blur items-center justify-center flex lg:z-50 lg:border-b lg:border-[#0f172a1a] bg-[#080a0ce0]'>
-        <div className='flex w-11/12 max-w-maxContent justify-between items-center text-richblack-5'>
+    <div className='h-14 fixed top-0 z-99 w-full backdrop-blur items-center justify-center flex lg:z-50 lg:border-b lg:border-[#0f172a1a] bg-[#080a0ce0] z-[100]'>
+        <div className='flex w-11/12 max-w-maxContent justify-between items-center text-richblack-5 z-[100]'>
            <Link to="/" className='flex flex-row gap-2'>
             <img src={logo} alt="logo" width={22} height={"auto"} className='object-contain' loading='lazy'></img>
             <h2 className='text-xl font-medium'>StudyHub</h2>
@@ -53,7 +53,6 @@ const Navbar = () => {
                           <p className=''>{link.title}</p>
                           <BiSolidChevronDown/>
                           <div className='invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 backdrop:blur-sm p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]'>
-
                                 {
                                     subLinks.length ? (
                                             subLinks.map( (subLink, index) => (
@@ -114,7 +113,7 @@ const Navbar = () => {
               </Link>)
             }
             {
-              token !== null && <ProfileDropDown/>
+                token !== null && <ProfileDropdown/>
             }
            </div>
         </div>
