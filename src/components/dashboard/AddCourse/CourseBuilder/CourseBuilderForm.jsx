@@ -2,13 +2,14 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { IoAddCircleOutline } from "react-icons/io5"
-import { MdNavigateNext,MdNavigateBefore } from "react-icons/md"
+import { MdNavigateNext} from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
 import {
   createSection,
   updateSection,
 } from "../../../../services/operations/courseDetailsAPI"
+
 import {
   setCourse,
   setEditCourse,
@@ -30,16 +31,14 @@ export default function CourseBuilderForm() {
   const [loading, setLoading] = useState(false)
   const [editSectionName, setEditSectionName] = useState(null)
   const dispatch = useDispatch()
-  console.log("course ",course);
-  console.log("course content ",course.courseContent);
-  console.log("course content length",course.courseContent.length);
+  
 
   // handle form submission
   const onSubmit = async (data) => {
     // console.log(data)
     setLoading(true)
 
-    let result
+    let result;
 
     if (editSectionName) {
       result = await updateSection(
@@ -103,7 +102,7 @@ export default function CourseBuilderForm() {
   }
 
   return (
-    <div className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6 w-[80%] md:w-full">
+    <div className="space-y-8 rounded-md  bg-richblack-800 p-6 w-[80%] md:w-full">
       <p className="text-2xl font-semibold text-richblack-5">Course Builder</p>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col space-y-2">
@@ -136,7 +135,7 @@ export default function CourseBuilderForm() {
             <button
               type="button"
               onClick={cancelEdit}
-              className="text-sm text-richblack-300 underline"
+              className="flex justify-center items-center font-poppins text-sm leading-[23px] font-poppins font-bold  blue-gradient text-richblack-5 px-6 py-3 gap-2 rounded-md"
             >
               Cancel Edit
             </button>
@@ -152,7 +151,6 @@ export default function CourseBuilderForm() {
           onClick={goBack}
           className={`flex justify-center items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient mt-11 px-6 py-3 gap-2 rounded-md `}
           >
-          <MdNavigateBefore/>
           Back
         </button>
         <IconBtn disabled={loading} text="Next" onclick={goToNext}

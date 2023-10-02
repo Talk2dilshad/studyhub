@@ -8,6 +8,7 @@ import ProfileDropdown from '../Auth/ProfileDropDown'
 import { apiConnector } from '../../services/microservices'
 import { categories } from '../../services/apis'
 import {BiSolidChevronDown} from "react-icons/bi"
+import { fetchCourseCategories } from '../../services/operations/courseDetailsAPI'
 
 const Navbar = () => {
   const instructor = "Instructor";
@@ -20,12 +21,9 @@ const Navbar = () => {
   //api call process
   const [subLinks,setSubLinks] = useState([]);
   const fetchSubLinks = async () => {
-    try{
-      const result = await apiConnector("GET",categories.CATEGORIES_API);
-        setSubLinks(result.data.data); 
-    }
-    catch(error){
-    console.log(error+ " could fetch the category");
+    const categories = await fetchCourseCategories();
+    if(categories.length>0){
+      setSubLinks(categories);
     }
   }
 

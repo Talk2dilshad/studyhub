@@ -74,7 +74,7 @@ const CourseTag = ({label,name,placeholder,register,errors,setValue,getValues}) 
           </div>
         ))}
         {/* Render the input for adding new chips */}
-        <textarea rows={"2"}
+        <textarea rows={"1"}
           id={name}
           name={name}
           type="text"

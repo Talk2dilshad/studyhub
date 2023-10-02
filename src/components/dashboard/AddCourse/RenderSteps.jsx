@@ -34,7 +34,7 @@ const RenderSteps = () => {
                   step === item.id
                     ? "border-blue-50 bg-blue-900 text-blue-50"
                     : "border-blue-50 bg-blue-50 text-blue-400"
-                } ${step > item.id && "bg-blue-50 text-blue-50"}`}>
+                } ${step > item.id && "bg-blue-50 "}`}>
                   {
                     step > item.id ? (<FaCheck/>):(item.id)
                   }

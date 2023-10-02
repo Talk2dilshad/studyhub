@@ -45,10 +45,12 @@ export default function Upload({
 
   useEffect(() => {
     register(name, { required: true });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [register]);
 
   useEffect(() => {
     setValue(name, selectedFile);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFile, setValue]);
 
   // Handle click events for Android Chrome

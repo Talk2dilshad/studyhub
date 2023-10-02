@@ -93,6 +93,7 @@ export default function CourseInformationForm() {
         const formData = new FormData()
         // console.log(data)
         formData.append("courseId", course._id)
+
         if (currentValues.courseTitle !== course.courseName) {
           formData.append("courseName", data.courseTitle)
         }
@@ -253,7 +254,7 @@ export default function CourseInformationForm() {
       <CourseTag
         label="Tags"
         name="courseTags"
-        placeholder="Enter Tags and press Enter"
+        placeholder="To Set Tags, press enter"
         register={register}
         errors={errors}
         setValue={setValue}
@@ -289,6 +290,7 @@ export default function CourseInformationForm() {
       <RequirementsField
         name="courseRequirements"
         label="Requirements/Instructions"
+        placeholder="To Set Requirement, press enter"
         register={register}
         setValue={setValue}
         errors={errors}
@@ -306,6 +308,7 @@ export default function CourseInformationForm() {
           </button>
         )}
         <IconBtn
+        // submit action take place...
         customClasses={"flex justify-center items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient mt-11 px-6 py-3 gap-2 rounded-md"}
           disabled={loading}
           text={!editCourse ? "Next" : "Save Changes"}
