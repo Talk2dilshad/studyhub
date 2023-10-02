@@ -4,7 +4,7 @@ const app = express();
 
 
   const corsOptions = {
-    origin: ['http://192.168.2.182:3000','http://localhost:3000'],
+    origin: ['https://studyhub-six.vercel.app/','http://localhost:3000'],
     credentials: true,
   };
 
