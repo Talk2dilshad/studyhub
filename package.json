@@ -2,7 +2,7 @@
   "name": "studyhub",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
+  "proxy": "https://studyhubserver.onrender.com:4000",
   "dependencies": {
     "@dotlottie/player-component": "^2.2.0",
     "@johanaarstein/dotlottie-player": "^1.5.22",
