@@ -7,11 +7,11 @@ const {uploadToCloudinary}= require("../utils/imageUploader");
 exports.updateProfile = async(req,res) => {
     try{
         //get data
-        const {dob="",about="",contactNumber,gender} = req.body;
+        const {firstname,lastname,dob,about,contactNumber,gender} = req.body;
         //getUserId
         const id=req.user.id;
         //validation
-        if(!contactNumber || !gender){
+        if(!contactNumber || !gender || !dob){
             return res.status(400).json({
                 success:false,
                 message:"please fill correctly"
@@ -21,6 +21,11 @@ exports.updateProfile = async(req,res) => {
         const userDetail = await User.findById(id);
         const profileId = userDetail.profile;
         const profileDetail = await Profile.findById(profileId);
+        //update user -> name
+        userDetail.firstname = firstname;
+        userDetail.lastname = lastname;
+        await userDetail.save();
+
         //update profile
         profileDetail.dob=dob;
         profileDetail.about=about;
