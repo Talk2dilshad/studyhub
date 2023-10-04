@@ -102,7 +102,7 @@ export default function CourseBuilderForm() {
   }
 
   return (
-    <div className="space-y-8 rounded-md  bg-richblack-800 p-6 w-[80%] md:w-full">
+    <div className="space-y-8 rounded-md  bg-richblack-800 p-6 md:w-full">
       <p className="text-2xl font-semibold text-richblack-5">Course Builder</p>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col space-y-2">
