@@ -8,7 +8,7 @@ exports.auth=(req,res,next) =>{
     //step
     //fetch token (3method are available)
     //header,body,cookies
-    const token = req.body.token || req.cookies.token || req.header("Authorization").replace("Bearer"," ")
+    const token = req.body.token || req.cookies.token || req.header("Authorization").replace("Bearer ", "")
 
     //if token is missing then return error res(401)
     if(!token || token === undefined)
@@ -18,6 +18,16 @@ exports.auth=(req,res,next) =>{
             message:"Token Missing!"
         })
     }
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Check token expiration
+    if (payload.exp <= Date.now() / 1000) {
+    return res.status(401).json({
+        success: false,
+        message: "Token has expired",
+    });
+    }
+
     //if token found -- verify token
     try{
         //create payload using verify method jwt
@@ -28,11 +38,12 @@ exports.auth=(req,res,next) =>{
         console.log(payload);
         req.user = payload;
     }
-    catch(err){// if token is tempered...
+    catch (err) {
+        console.error("Token verification error:", err);
         return res.status(401).json({
-            success:false,
-            message:"token invalid"
-        })
+          success: false,
+          message: "Token invalid",
+        });
     }
     next();
 }
