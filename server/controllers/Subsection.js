@@ -66,9 +66,9 @@ exports.updateSubSection = async(req,res) =>{
     try{
         //data fetch
         
-        const {sectionId,title,timeDuration,description} = req.body;
+        const {sectionId,title,description} = req.body;
         //validation
-        if(!sectionId|| !title|| !timeDuration|| !description){
+        if(!sectionId|| !title || !description){
             return res.status(400).json({
                 success:false,
                 message:"missing properties !"
@@ -95,7 +95,7 @@ exports.updateSubSection = async(req,res) =>{
 
         //update profile
         subSectionDetail.title = title;
-        subSectionDetail.timeDuration = timeDuration;
+        subSectionDetail.timeDuration = `${uploadFile.duration}`;
         subSectionDetail.description = description;
         subSectionDetail.videoUrl = uploadFile.secure_url;
         await subSectionDetail.save();
