@@ -199,6 +199,7 @@ export const getAllCourses = async () => {
   
   // update a subsection
   export const updateSubSection = async (data, token) => {
+    console.log("data  :",data)
     let result = null
     const toastId = toast.loading("Loading...")
     try {

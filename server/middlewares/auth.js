@@ -31,15 +31,11 @@ exports.auth=(req,res,next) =>{
     //if token found -- verify token
     try{
         //create payload using verify method jwt
-        console.log("auth middleware token ",token);
-        const value= process.env.JWT_SECRET;
-        console.log("value",value)
         const payload = jwt.verify(token,process.env.JWT_SECRET);
         console.log(payload);
         req.user = payload;
     }
     catch (err) {
-        console.error("Token verification error:", err);
         return res.status(401).json({
           success: false,
           message: "Token invalid",

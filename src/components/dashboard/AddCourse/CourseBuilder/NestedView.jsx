@@ -3,7 +3,7 @@ import { FaCircleChevronDown } from "react-icons/fa6"
 import { LuFileVideo } from "react-icons/lu"
 import { MdEdit } from "react-icons/md"
 import { RiDeleteBin6Line } from "react-icons/ri"
-import { LuListVideo } from "react-icons/lu"
+import { PiVideoFill } from "react-icons/pi"
 import {GoMultiSelect} from "react-icons/go"
 import { useDispatch, useSelector } from "react-redux"
 
@@ -54,7 +54,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
   return (
     <>
       <div
-        className="rounded-lg bg-richblack-900 p-6 px-8"
+        className="rounded-lg bg-richblack-700 p-6 px-8"
         id="nestedViewContainer"
       >
         {course?.courseContent?.map((section) => (
@@ -63,8 +63,8 @@ export default function NestedView({ handleChangeEditSectionName }) {
             {/* Section Dropdown Content */}
             <summary className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
               <div className="flex items-center gap-x-3">
-                <GoMultiSelect className="text-base md:text-2xl text-richblack-50" />
-                <p className="font-semibold text-sm md:text-base text-richblack-50">
+                <GoMultiSelect className="text-xl md:text-2xl text-richblack-50" />
+                <p className="font-semibold text-base  text-richblack-50">
                   {section.sectionName}
                 </p>
               </div>
@@ -94,7 +94,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
                 <FaCircleChevronDown className={`text-xl text-richblack-300 hidden md:block`} />
               </div>
             </summary>
-            <div className="px-6 pb-4">
+            <div className="px-4 md:px-5 lg:px-6 pb-4">
               {/* Render All Sub Sections Within a Section */}
               {section.subSection.map((data) => (
                 <div
@@ -103,7 +103,7 @@ export default function NestedView({ handleChangeEditSectionName }) {
                   className="flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2"
                 >
                   <div className="flex items-center gap-x-3 py-2 ">
-                    <LuListVideo className="text-2xl text-richblack-50" />
+                    <PiVideoFill className="text-2xl text-richblack-50" />
                     <p className="font-semibold text-richblack-50">
                       {data.title}
                     </p>
