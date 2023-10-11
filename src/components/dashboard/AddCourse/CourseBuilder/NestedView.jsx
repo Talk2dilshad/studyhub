@@ -40,11 +40,13 @@ export default function NestedView({ handleChangeEditSectionName }) {
 
   const handleDeleteSubSection = async (subSectionId, sectionId) => {
     const result = await deleteSubSection({ subSectionId, sectionId, token })
+    console.log(result,"delete subsec")
     if (result) {
       // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>
         section._id === sectionId ? result : section
       )
+      console.log("updated ...",updatedCourseContent)
       const updatedCourse = { ...course, courseContent: updatedCourseContent }
       dispatch(setCourse(updatedCourse))
     }

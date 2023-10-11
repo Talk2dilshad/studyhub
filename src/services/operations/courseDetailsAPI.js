@@ -277,10 +277,11 @@ export const getAllCourses = async () => {
         }
       )
       console.log("INSTRUCTOR COURSES API RESPONSE............", response)
-      if (!response?.data?.success) {
+      if (!response?.data?.data) {
         throw new Error("Could Not Fetch Instructor Courses")
       }
       result = response?.data?.data
+      console.log("result of instructor ",result)
     } catch (error) {
       console.log("INSTRUCTOR COURSES API ERROR............", error)
       toast.error(error.message)
