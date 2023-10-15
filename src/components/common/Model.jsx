@@ -18,7 +18,7 @@ const Model = ({ modalData }) => {
             customClasses={"bg-[#b71c1c]"}
           />
           <button
-            className="cursor-pointer rounded-md bg-[#e53935] py-[8px] px-[20px] font-semibold text-richblack-900"
+            className="cursor-pointer rounded-full bg-[#e53935] py-[8px] px-[20px] font-semibold text-richblack-900"
             onClick={modalData?.btn2Handler}
           >
             {modalData?.btn2Text}

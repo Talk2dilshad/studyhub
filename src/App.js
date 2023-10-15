@@ -22,6 +22,8 @@ import { ACCOUNT_TYPE } from './utils/constants';
 import EnrolledCourses from './components/dashboard/EnrolledCourses';
 import AddCourse from './components/dashboard/AddCourse';
 import MyCourses from './components/dashboard/MyCourses';
+import EditCourse from './components/dashboard/EditCourse/EditCourse';
+import Explore from './pages/Explore';
 
 function App() {
   const {user} = useSelector( (state) => state.profile)
@@ -33,6 +35,8 @@ function App() {
 
     <Routes>
       <Route path="/" element={<Home/>}/>
+      {/* catalog /explore */}
+      <Route path='catalog/:catalogName' element={<Explore/>}/>
       <Route path="/error" element={<Error/>}/>
       <Route
           path="login"
@@ -111,6 +115,7 @@ function App() {
           <>
           <Route path='dashboard/add-course' element={<AddCourse/>} />
           <Route path='/dashboard/my-courses' element={<MyCourses/>}/>
+          <Route path='/dashboard/edit-course/:courseId' element={<EditCourse/>}  />
           </>
         )
     }

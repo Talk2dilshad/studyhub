@@ -30,7 +30,6 @@ const InstructorCourses = ({courses,setCourses}) => {
     setConfirmationModal(null)
     setLoading(false)
   }
-  console.log("-> instructor ",courses);
   
   return (
     <div className='flex flex-row flex-wrap gap-x-8 gap-y-8 items-center justify-center'>
@@ -44,14 +43,15 @@ const InstructorCourses = ({courses,setCourses}) => {
         :
         (
           courses?.map( (course) => (
-            <div className='flex flex-col md:flex-row gap-x-2 '>
+          <div className='flex flex-col md:flex-row gap-x-2 gap-y-2'>
           <img
+            loading="lazy"
             src={course?.thumbnail}
             alt={course?.courseName}
             className="h-[148px] w-[220px] rounded-lg object-cover"
           />
 
-          <div className='flex flex-col justify-between'>
+          <div className='flex flex-col justify-between gap-y-1'>
             <p className='text-lg font-semibold text-richblack-5'>{course.courseName}</p>
             <p className="text-sm font-medium text-richblack-100">
             ₹{course.price}
@@ -68,8 +68,8 @@ const InstructorCourses = ({courses,setCourses}) => {
             </p>) 
             :
             (
-              <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
-              <div className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
+              <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-blue-100">
+              <div className="flex h-3 w-3 items-center justify-center rounded-full bg-blue-100 text-richblack-700">
                 <FaCheck size={8} />
               </div>
               Published
@@ -118,6 +118,9 @@ const InstructorCourses = ({courses,setCourses}) => {
           ))
         )}
       
+      {
+        confirmationModal && <Model modalData={confirmationModal}/>
+      }
     </div>
   )
 }
