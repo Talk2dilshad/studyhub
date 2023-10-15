@@ -5,6 +5,7 @@ import {NavbarLinks} from "../../data/navbar-links"
 import { useSelector } from 'react-redux'
 import {FiShoppingCart} from "react-icons/fi"
 import {TbLogin} from "react-icons/tb"
+import {PiUserCirclePlus} from "react-icons/pi"
 import ProfileDropdown from '../Auth/ProfileDropDown'
 import {BiSolidChevronDown} from "react-icons/bi"
 import { fetchCourseCategories } from '../../services/operations/courseDetailsAPI'
@@ -100,7 +101,7 @@ const Navbar = () => {
                 <button className='glass_effect flex flex-row items-center mx-auto rounded-full px-4 py-1
                 text-richblack-200 font-bold group  transition-all duration-200 
                 bg-richblack-800 hover:bg-richblack-900 hover:scale-95'>
-                  <div className='block md:hidden'><TbLogin/></div>
+                  <div className='block md:hidden'><TbLogin size={18}/></div>
                   <span className='hidden md:block'>Log In</span></button>
               </Link>)
             }
@@ -109,7 +110,10 @@ const Navbar = () => {
               (<Link to="/signup">
                 <button className='glass_effect flex flex-row items-center mx-auto rounded-full px-4 py-1
                 text-richblack-200 font-bold group  transition-all duration-200 text-[13px] md:text-base
-                bg-richblack-800 hover:bg-richblack-900 hover:scale-95'><span>Sign Up</span></button>
+                bg-richblack-800 hover:bg-richblack-900 hover:scale-95'>
+                  
+                <div className='block md:hidden'><PiUserCirclePlus size={20}/></div>
+                  <span className='hidden md:block'>Sign Up</span></button>
               </Link>)
             }
             {
