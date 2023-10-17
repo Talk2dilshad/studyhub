@@ -17,7 +17,7 @@ import Footer from "../components/common/Footer";
 const Home = () => {
 // ------------------------  Animation logic  -----------------------------  
 const animationRef = useRef(null);
-const animationDuration = 4000;
+const animationDuration = 4050;
   useEffect(() => {
     let isUnmounted = false;
     const currentAnimation = animationRef.current; // Capture the value here
