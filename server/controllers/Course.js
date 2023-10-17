@@ -268,7 +268,7 @@ exports.deleteCourse = async (req,res) => {
         console.log("console log course backend",course)
         //unenroll students from the course
         
-        const studentsEnrolled = Courses.studentsEnroled;
+        const studentsEnrolled = Courses.studentsEnrolled;
         if(studentsEnrolled){
             for(const id of studentsEnrolled){
                 await User.findByIdAndUpdate(id,{

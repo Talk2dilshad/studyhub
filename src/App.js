@@ -36,7 +36,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home/>}/>
       {/* catalog /explore */}
-      <Route path='catalog/:catalogName' element={<Explore/>}/>
+      <Route path="catalog/:catalogName" element={<Explore/>}/>
       <Route path="/error" element={<Error/>}/>
       <Route
           path="login"

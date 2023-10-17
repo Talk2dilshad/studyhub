@@ -101,7 +101,7 @@ const Navbar = () => {
                 <button className='glass_effect flex flex-row items-center mx-auto rounded-full px-4 py-1
                 text-richblack-200 font-bold group  transition-all duration-200 
                 bg-richblack-800 hover:bg-richblack-900 hover:scale-95'>
-                  <div className='block md:hidden'><TbLogin size={18}/></div>
+                  <div className='block md:hidden'><TbLogin size={20}/></div>
                   <span className='hidden md:block'>Log In</span></button>
               </Link>)
             }

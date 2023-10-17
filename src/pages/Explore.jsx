@@ -12,38 +12,33 @@ const Explore = () => {
     const {loading} = useSelector( (state)=> state.profile);
     const {catalogName} = useParams();
     const [active,setActive] = useState(1);
-
     const [catalogPageData,setCatalogPageData] = useState(null);
     const [categoryId,setCategoryId] = useState("");
 
 
-    useEffect( () => {
-        const getCategoryDetails = async() => {
+    useEffect(() => {
+        const fetchData = async () => {
             try {
-                const res = await apiConnector("GET", categories.CATEGORIES_API)
-                const category_id = res?.data?.data?.filter(
-                  (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName
-                )[0]._id
-                setCategoryId(category_id)
-            } catch (error) {
-                console.log("Could not fetch Categories.", error)
-            }
-        }
-        getCategoryDetails();
-    },[catalogName]);
-// based on category id get category page details
-    useEffect( () => {
-        const getCategoryPageDetails = async() => {
-            try{
-                const res = await getCatalogPageData(categoryId);
-                setCatalogPageData(res);
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getCategoryPageDetails();
-    },[categoryId]);
+                // Fetch category data
+                const res = await apiConnector("GET", categories.CATEGORIES_API);
+                const category_id = res?.data?.data?.find(
+                    (ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName
+                )?._id;
+                setCategoryId(category_id);
 
+                // Fetch catalog page data based on category ID
+                if (category_id) {
+                    const catalogData = await getCatalogPageData(category_id);
+                    setCatalogPageData(catalogData);
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [catalogName]);
+    console.log("catalog ddata frontend",catalogPageData);
     if(loading || !catalogPageData)
     {
         return(
@@ -60,6 +55,8 @@ const Explore = () => {
       )
     }
 
+  // section1 clg
+  console.log('section1 console log ',catalogPageData?.data?.selectedCategory?.courses);
 
   return (
     <div className='justify-center items-center mt-20 relative text-white'>
@@ -81,19 +78,24 @@ const Explore = () => {
         </div>
       </div>
 
-    {/* section1 */}
-    <div className='mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent'>
-        <p className='section_heading'>Course to get you started</p>
-        <div className='my-4 flex border-b border-b-richblue-600 text-sm'>
-            <p className={`px-4 py-2 cursor-pointer ${active ===1 ?"border-b border-b-blue-100 text-blue-100" : "text-richblack-50" }`} 
-            onClick={()=> setActive(1)}
-            >
-                Most Popular
-            </p>
-            <p
+    {/* Section 1 */}
+    <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+        <div className="section_heading">Courses to get you started</div>
+        <div className="my-4 flex border-b border-b-richblack-600 text-sm">
+          <p
+            className={`px-4 py-2 ${
+              active === 1
+                ? "border-b border-b-yellow-25 text-yellow-25"
+                : "text-richblack-50"
+            } cursor-pointer`}
+            onClick={() => setActive(1)}
+          >
+            Most Populer
+          </p>
+          <p
             className={`px-4 py-2 ${
               active === 2
-                ? "border-b border-b-blue-100 text-blue-100"
+                ? "border-b border-b-yellow-25 text-yellow-25"
                 : "text-richblack-50"
             } cursor-pointer`}
             onClick={() => setActive(2)}
@@ -102,18 +104,21 @@ const Explore = () => {
           </p>
         </div>
         <div>
-            <CourseSlider
-                Courses={catalogPageData?.data?.selectedCategory?.courses}
-            />
+          <CourseSlider
+            Courses={catalogPageData?.data?.selectedCategory?.courses}
+          />
         </div>
-    </div>
+      </div>
     {/* section 2 */}
     <div className='mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent'>
         <div className='section_heading'>
-            Top Course in {catalogPageData?.data?.differentCategory?.courses}
+            Top Course in {catalogPageData?.data?.differentCategory?.name}
         </div>
         <div className='py-8'>
             {/* course slider */}
+            {
+              console.log("section 2 explore ",catalogPageData?.data?.differentCategory?.courses)
+            }
             <CourseSlider
             Courses={catalogPageData?.data?.differentCategory?.courses}
           />
@@ -127,7 +132,7 @@ const Explore = () => {
             {catalogPageData?.data?.mostSellingCourses
               ?.slice(0, 4)
               .map((course, i) => (
-                <CourseCard course={course} key={i} Height={"h-[400px]"} />
+                <CourseCard course={course} key={i} Height={"h-[300px]"} />
               ))}
           </div>
         </div>
