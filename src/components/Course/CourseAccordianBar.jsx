@@ -23,7 +23,7 @@ const CourseAccordianBar = ({course, isActive, handleActive,index}) => {
     <div className='overflow-hidden border-b border-richblack-600 text-richblack-5 last:mb-0'>
         <div>
             <div
-            className={`flex cursor-pointer items-center justify-between bg-opacity-20 px-7  py-4 transition-[0.3s]`}
+            className={`flex cursor-pointer items-center justify-between bg-opacity-20 px-3 md:px-5 lg:px-7  py-4 transition-[0.3s]`}
             onClick={() => {
                 handleActive(course._id)
             }}

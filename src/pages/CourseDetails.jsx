@@ -112,7 +112,7 @@ console.log("response data of Selected course ",response);
     courseContent,
     ratingandReviews,
     instructor,
-    studentsEnroled,
+    studentsEnrolled,
     createdAt,
   } = response.data?.courseDetails
 
@@ -123,7 +123,7 @@ console.log("response data of Selected course ",response);
     <>
         <div className={`relative w-full`}>
             {/* for mobile & tablet only */}
-            <div className="bg-richblack-800 fixed bottom-0 left-0 right-0 p-2 flex justify-between rounded-xl items-center lg:hidden z-[100]">
+            <div className="bg-richblack-800 fixed bottom-0 left-0 right-0 p-3 flex justify-between rounded-xl items-center lg:hidden z-[100]">
             <p className="text-xl font-semibold text-richblack-5 ml-4 md:ml-20">₹ {price}</p>
             <button className="flex justify-center w-[65%] md:w-9/12 items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient px-4 text-richblack-5 rounded-full py-3 md:py-4">Buy Now</button>
             </div>
@@ -253,7 +253,7 @@ console.log("response data of Selected course ",response);
 
 
             {/* Author Details */}
-            <div className="mb-12 py-4">
+            <div className="mb-14 lg:mb-12 py-4">
               <p className="text-[28px] font-semibold">Instructor</p>
               <div className="flex items-center gap-4 py-4">
                 <img
