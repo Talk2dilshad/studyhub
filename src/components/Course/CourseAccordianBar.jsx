@@ -29,10 +29,10 @@ const CourseAccordianBar = ({course, isActive, handleActive,index}) => {
             }}
             >
              <div className='flex items-center gap-x-2'>
-                <p className='font-bold '>{course?.sectionName}</p>|
+                <p className='font-bold'>{course?.sectionName}</p>|
                 <p className='text-[12px] ring-richblack-200'>Module {`${index+1}`}</p>
              </div>
-             <div className=''>
+             <div>
                 <i className={isActive.includes(course._id) ? "rotate-180":"rotate-0"}>
                     <AiOutlineDown/>
                 </i>
