@@ -13,6 +13,12 @@ import CourseDetailsCard from '../components/Course/CourseDetailsCard';
 import Model from '../components/common/Model';
 import CourseAccordianBar from '../components/Course/CourseAccordianBar';
 
+// cart
+
+import {addToCart} from "../slices/cartSlice";
+import {ACCOUNT_TYPE} from "../utils/constants";
+import {toast} from "react-hot-toast";
+
 
 const CourseDetails = () => {
   const {user} = useSelector( (state) => state.profile);
@@ -29,7 +35,6 @@ const CourseDetails = () => {
   // declare state to save course details
   const [response,setResponse] = useState(null);
   const [confirmationModal, setConfirmationModal] = useState(null);
-
 
 
   useEffect( () => {
@@ -98,7 +103,26 @@ console.log("response data of Selected course ",response);
     )
   }
 
+  const course =response?.data.courseDetails;
 
+  const handleAddToCart = () => {
+    if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+      toast.error("You are an Instructor. You can't buy a course.")
+      return
+    }
+    if (token) {
+      dispatch(addToCart(course))
+      return
+    }
+    setConfirmationModal({
+      text1: "You are not logged in!",
+      text2: "Sign in to put the course in your shopping cart.",
+      btn1Text: "Login",
+      btn2Text: "Cancel",
+      btn1Handler: () => navigate("/login"),
+      btn2Handler: () => setConfirmationModal(null),
+    })
+  }
 
   //taking out important data from response
   const {
@@ -112,7 +136,7 @@ console.log("response data of Selected course ",response);
     courseContent,
     ratingandReviews,
     instructor,
-    studentsEnrolled,
+    StudentEnrolled,
     createdAt,
   } = response.data?.courseDetails
 
@@ -125,7 +149,9 @@ console.log("response data of Selected course ",response);
             {/* for mobile & tablet only */}
             <div className="bg-richblack-800 fixed bottom-0 left-0 right-0 p-3 flex justify-between rounded-xl items-center lg:hidden z-[100]">
             <p className="text-xl font-semibold text-richblack-5 ml-4 md:ml-20">₹ {price}</p>
-            <button className="flex justify-center w-[65%] md:w-9/12 items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient px-4 text-richblack-5 rounded-full py-3 md:py-4">Buy Now</button>
+            <button
+            onClick={handleBuyCourse}
+            className="flex justify-center w-[65%] md:w-9/12 items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient px-4 text-richblack-5 rounded-full py-3 md:py-4">Buy Now</button>
             </div>
 
 
@@ -195,7 +221,17 @@ console.log("response data of Selected course ",response);
             <p className="space-x-2 text-xl font-semibold text-richblack-5 ">
             ₹ {price}
               </p>
-            <button className="flex justify-center w-[75%] md:w-9/12 items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient px-4 text-richblack-5 rounded-full py-3 md:py-4">Add To Cart</button>
+            {/* button */}
+            {
+                (!user || !course?.StudentEnrolled.includes(user?._id))
+                &&
+                (
+                    <button onClick={handleAddToCart} className="flex justify-center w-full items-center font-poppins  text-base font-poppins font-bold blue-gradient px-3 text-richblack-5 rounded-full py-3">
+                    Add to Cart
+                    </button>
+                )
+            }
+
             </div>
 
             
@@ -253,7 +289,7 @@ console.log("response data of Selected course ",response);
 
 
             {/* Author Details */}
-            <div className="mb-14 lg:mb-12 py-4">
+            <div className="mb-20 lg:mb-12 py-4">
               <p className="text-[28px] font-semibold">Instructor</p>
               <div className="flex items-center gap-4 py-4">
                 <img
@@ -281,6 +317,7 @@ console.log("response data of Selected course ",response);
 
 
       {confirmationModal && <Model modalData={confirmationModal} /> }
+      
 
     </>
   )
