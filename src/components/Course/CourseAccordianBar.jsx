@@ -28,7 +28,7 @@ const CourseAccordianBar = ({course, isActive, handleActive,index}) => {
                 handleActive(course._id)
             }}
             >
-             <div className='flex items-center justify-center gap-x-2'>
+             <div className='flex items-center gap-x-2'>
                 <p className='font-bold '>{course?.sectionName}</p>|
                 <p className='text-[12px] ring-richblack-200'>Module {`${index+1}`}</p>
              </div>
