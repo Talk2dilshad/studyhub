@@ -1,5 +1,6 @@
 const { contactUsEmail } = require("../mail/templates/contactFormRes")
 const mailSender = require("../utils/mailSender")
+require("dotenv").config();
 
 exports.contactUsController = async (req, res) => {
   const { email, firstname, lastname, message, phoneNo, countrycode } = req.body
@@ -10,7 +11,7 @@ exports.contactUsController = async (req, res) => {
       "Thank You for Connecting with StudyHub",
       contactUsEmail(email, firstname, lastname, message, phoneNo, countrycode)
     )
-    const adminMail = "mail.dilshad.acc@gmail.com";
+    const adminMail = process.env.MAIL_USER;
     const ToAdmin = await mailSender(
       adminMail,
       "Client Contact You Sir",

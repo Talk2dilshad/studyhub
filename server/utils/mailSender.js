@@ -15,7 +15,7 @@ const mailSender = async (email, title, body) => {
     });
 
     let message = await transporter.sendMail({
-      from: `StudyHub`,
+      from: `StudyHub<${process.env.MAIL_USER}>`,
       to: email,
       subject: title,
       html: body,
