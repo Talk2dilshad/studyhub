@@ -1,4 +1,4 @@
-exports.contactUsEmail = (
+exports.AdmincontactUsEmail = (
     email,
     firstname,
     lastname,

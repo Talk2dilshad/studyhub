@@ -1,4 +1,5 @@
 const { contactUsEmail } = require("../mail/templates/contactFormRes")
+const { AdmincontactUsEmail } = require("../mail/templates/AdminContactForm")
 const mailSender = require("../utils/mailSender")
 require("dotenv").config();
 
@@ -15,7 +16,7 @@ exports.contactUsController = async (req, res) => {
     const ToAdmin = await mailSender(
       adminMail,
       "Client Contact You Sir",
-      contactUsEmail(email, firstname, lastname, message, phoneNo, countrycode)
+      AdmincontactUsEmail(email, firstname, lastname, message, phoneNo, countrycode)
     )
     console.log("Email Res ", emailRes)
     console.log("Email to admin ", ToAdmin)
