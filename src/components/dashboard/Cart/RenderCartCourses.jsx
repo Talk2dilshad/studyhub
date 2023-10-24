@@ -56,9 +56,9 @@ const RenderCartCourses = () => {
               className="flex items-center gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-3 px-[12px] text-pink-200"
             >
               <RiDeleteBin6Line />
-              
+
             </button>
-            <p className="mb-6 text-3xl font-medium text-blue-200">
+            <p className="mb-6 sm:text-base md:text-3xl font-medium text-blue-200">
               ₹ {course?.price}
             </p>
           </div>
