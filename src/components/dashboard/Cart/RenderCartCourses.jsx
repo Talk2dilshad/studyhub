@@ -58,7 +58,7 @@ const RenderCartCourses = () => {
               <RiDeleteBin6Line />
 
             </button>
-            <p className="mb-6 sm:text-base md:text-3xl font-medium text-blue-200">
+            <p className="mb-6 sm:text-base md:text-xl lg:text-3xl font-medium text-blue-200">
               ₹ {course?.price}
             </p>
           </div>
