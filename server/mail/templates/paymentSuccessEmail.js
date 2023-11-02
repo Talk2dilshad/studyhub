@@ -1,10 +1,10 @@
-exports.courseEnrollmentEmail = (courseName, name) => {
-    return `<!DOCTYPE html>
+exports.paymentSuccessEmail = (name, amount, orderId, paymentId) => {
+  return `<!DOCTYPE html>
     <html>
     
     <head>
         <meta charset="UTF-8">
-        <title>Course Registration Confirmation</title>
+        <title>Payment Confirmation</title>
         <style>
             body {
                 background-color: #ffffff;
@@ -23,7 +23,6 @@ exports.courseEnrollmentEmail = (courseName, name) => {
                 padding: 20px;
                 text-align: center;
             }
-    
     
             .message {
                 font-size: 18px;
@@ -63,20 +62,18 @@ exports.courseEnrollmentEmail = (courseName, name) => {
     
     <body>
         <div class="container">
-        <a href="https://studyhubdilshad.vercel.app"><h1>StudyHub</h1></a>
-            <div class="message">Course Registration Confirmation</div>
+            <a href="https://studyhubdilshad.vercel.app"><h1>StudyHub</h1></a>
+            <div class="message">Course Payment Confirmation</div>
             <div class="body">
                 <p>Dear ${name},</p>
-                <p>You have successfully registered for the course <span class="highlight">"${courseName}"</span>. We
-                    are excited to have you as a participant!</p>
-                <p>Please log in to your learning dashboard to access the course materials and start your learning journey.
-                </p>
-                <a class="cta" href="https://studyhubdilshad.vercel.app/dashboard/enrolled-courses">Go to Dashboard</a>
+                <p>We have received a payment of <span class='highlight'>₹${amount}</span></p>.
+                <p>Your Payment ID is <b>${paymentId}</b></p>
+                <p>Your Order ID is <b>${orderId}</b></p>
             </div>
             <div class="support">If you have any questions or need assistance, please feel free to reach out to us at <a
             href="mailto:studyhubofficials@gmail.com">studyhubofficials@gmail.com</a>. We are here to help!</div>
         </div>
     </body>
     
-    </html>`;
-  };
+    </html>`
+}

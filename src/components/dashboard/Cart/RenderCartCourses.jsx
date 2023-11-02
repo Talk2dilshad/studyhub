@@ -5,6 +5,7 @@ import {RiDeleteBin6Line} from "react-icons/ri"
 import { removeFromCart } from "../../../slices/cartSlice"
 import ReactStars from "react-rating-stars-component"
 
+
 const RenderCartCourses = () => {
 
     const {cart} = useSelector((state) => state.cart);

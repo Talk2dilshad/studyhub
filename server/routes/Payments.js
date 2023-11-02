@@ -2,11 +2,11 @@
 const express = require("express");
 const router = express.Router();
  
-const {capturePayment,verifySignature} = require("../controllers/Payment");
+const {capturePayment,verifySignature, sendPaymentRecieptEmail} = require("../controllers/Payment");
 const {auth,isStudent} = require("../middlewares/auth");
 
 
 router.post("/capturePayment",auth,isStudent,capturePayment);
-router.post("/verifySignature",verifySignature);
-
+router.post("/verifyPayment",auth,isStudent,verifySignature);
+router.post("/sendPaymentSuccessEmail",auth,isStudent,sendPaymentRecieptEmail)
 module.exports = router;

@@ -7,6 +7,7 @@ import { getCatalogPageData } from '../services/operations/exploreApi';
 import CourseCard from '../components/explore/Course_Card';
 import Footer from '../components/common/Footer';
 import CourseSlider from '../components/explore/Course_slider';
+import LoadingAnimation from '../components/common/LoadingAnimation';
 
 const Explore = () => {
     const {loading} = useSelector( (state)=> state.profile);
@@ -48,17 +49,7 @@ const Explore = () => {
       loading || !catalogPageData || !categoryId  ? 
       
       (
-        <div className='justify-center items-center mt-2 relative'>
-        <div className='flex flex-col justify-center items-center h-[500px] overflow-hidden'>
-        <dotlottie-player
-        src="https://lottie.host/c46e1cbb-90f5-4bda-91a2-2d13dfa4cf27/SHS1Q5qW4Y.lottie"
-        autoplay
-        loop
-        style={{ height: "fit-content", width: "100%",overflow:"hidden" }}
-        className='overflow-y-hidden h-fit '
-        />
-      </div>
-      </div>
+        <LoadingAnimation/>
       ) : 
       (
         <div className='justify-center items-center mt-20 relative text-white'>
