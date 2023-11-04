@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { formattedDate } from '../../utils/formattedDate';
 import IconBtn from '../common/IconBtn';
 import { RiEditBoxLine } from 'react-icons/ri';
+import Heading from './Heading';
 
 const MyProfile = () => {
   const { user } = useSelector((state) => state.profile);
@@ -16,7 +17,9 @@ const MyProfile = () => {
 
   return (
     <div className="flex-grow ml-[50px] md:ml-[220px]">
-      <h1 className="mb-8 text-3xl font-medium text-richblack-5">My Profile</h1>
+      <h1 className="mb-8 text-3xl font-medium text-richblack-5">
+        <Heading children={"My Profile"}/>
+      </h1>
       <div className="flex items-center justify-between rounded-xl bg-richblack-800 py-6 px-4 md:p-8 md:px-12">
         <div className="flex items-center gap-x-4">
           <img

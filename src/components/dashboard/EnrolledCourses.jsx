@@ -4,6 +4,7 @@ import { getUserEnrolledCourses } from '../../services/operations/profileAPI';
 import ProgressBar from '@ramonak/react-progress-bar';
 import LoadingAnimation from '../common/LoadingAnimation';
 import { useNavigate } from 'react-router-dom';
+import Heading from './Heading';
 
 const EnrolledCourses = () => {
 
@@ -34,9 +35,11 @@ const EnrolledCourses = () => {
 
 
   return (
-    <div className='text-white  ml-12 items-start gap-x-6 mt-10 w-[90%] md:w-full overflow-x-hidden'>
+    <div className='text-white  ml-12 items-start gap-x-6 mt-2 w-[90%] md:w-full overflow-x-hidden'>
 
-        <div>Enrolled Courses</div>
+        <div>
+          <Heading children={"Enrolled Courses"} />
+          </div>
         {
             !enrolledCourses ? 
             (<>
