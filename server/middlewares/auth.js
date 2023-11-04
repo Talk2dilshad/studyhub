@@ -8,8 +8,10 @@ exports.auth=(req,res,next) =>{
     //step
     //fetch token (3method are available)
     //header,body,cookies
-    const token = req.body.token || req.cookies.token || req.header("Authorization").replace("Bearer ", "")
-
+    const token =
+			req.cookies.token ||
+			req.body.token ||
+			req.header("Authorization").replace("Bearer ", "");
     //if token is missing then return error res(401)
     if(!token || token === undefined)
     {
