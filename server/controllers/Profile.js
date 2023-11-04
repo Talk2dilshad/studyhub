@@ -182,70 +182,136 @@ exports.updateDisplayPicture = async(req,res) =>{
 	}
 }
 
-exports.getEnrolledCourses = async (req,res) => {
-    try{
-        //steps find user > populate course if not then throw error else return data or move to catch block
+// exports.getEnrolledCourses = async (req,res) => {
+//     try{
+//         //steps find user > populate course if not then throw error else return data or move to catch block
 
-        const userId = req.user.id;
-        let userDetail = await User.findOne({
-            _id: userId,
-          })
-            .populate({
-              path: "courses",
-              populate: {
-                path: "courseContent",
-                populate: {
-                  path: "subSection",
-                },
-              },
-            })
-            .exec()
+//         const userId = req.user.id;
+//         let userDetail = await User.findOne({
+//             _id: userId,
+//           })
+//             .populate({
+//               path: "courses",
+//               populate: {
+//                 path: "courseContent",
+//                 populate: {
+//                   path: "subSection",
+//                 },
+//               },
+//             })
+//             .exec()
 
        
-        userDetail = userDetail.toObject()
+//         userDetail = userDetail.toObject()
         
 
-        let SubsectionLength = 0;
+//         let SubsectionLength = 0;
 
-        for(let i=0;i<userDetail.courses.length;i++){
-            let totalDurationInSeconds = 0;
-            SubsectionLength = 0;
-            for(let j=0;j<userDetail.courses[i].courseContent.length;j++){
-                totalDurationInSeconds += userDetail.courses[i].courseContent[j].subSection.reduce((acc,curr) => acc+ parseInt(curr.timeDuration),0)
+//         for(let i=0;i<userDetail.courses.length;i++){
+//             let totalDurationInSeconds = 0;
+//             SubsectionLength = 0;
+//             for(let j=0;j<userDetail.courses[i].courseContent.length;j++){
+//                 totalDurationInSeconds += userDetail.courses[i].courseContent[j].subSection.reduce((acc,curr) => acc+ parseInt(curr.timeDuration),0)
 
-                userDetail.courses[i].totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+//                 userDetail.courses[i].totalDuration = convertSecondsToDuration(totalDurationInSeconds)
 
-                SubsectionLength += userDetail.courses[i].courseContent[j].subSection.length;
-            }
+//                 SubsectionLength += userDetail.courses[i].courseContent[j].subSection.length;
+//             }
 
-            let courseProgressCount = await CourseProgress.findOne({courseId:userDetail.courses[i]._id,
-                userId:userId,
-            })
+//             let courseProgressCount = await CourseProgress.findOne({courseId:userDetail.courses[i]._id,
+//                 userId:userId,
+//             })
 
-            courseProgressCount = courseProgressCount?.completedVideos.length
-            if(SubsectionLength === 0){
-                userDetail.courses[i].progressPercentage = 100
-            } else {
-                // To make it up to 2 decimal point
-                const multiplier = Math.pow(10, 2)
-                userDetail.courses[i].progressPercentage =
-                  Math.round(
-                    (courseProgressCount / SubsectionLength) * 100 * multiplier
-                  ) / multiplier
-            }
-        }
+//             courseProgressCount = courseProgressCount?.completedVideos.length
+//             if(SubsectionLength === 0){
+//                 userDetail.courses[i].progressPercentage = 100
+//             } else {
+//                 // To make it up to 2 decimal point
+//                 const multiplier = Math.pow(10, 2)
+//                 userDetail.courses[i].progressPercentage =
+//                   Math.round(
+//                     (courseProgressCount / SubsectionLength) * 100 * multiplier
+//                   ) / multiplier
+//             }
+//         }
 
-        if(!userDetail) 
-            return res.status(404).json({
-                success:false,
-                message:`not enrolled in any courses !`
-            })
+//         if(!userDetail) 
+//             return res.status(404).json({
+//                 success:false,
+//                 message:`not enrolled in any courses !`
+//             })
         
-        return res.status(200).json({
-            success:true,
-            data: userDetail.courses,
-        })
-    }catch(error){
-        throw new Error(error.message);
+//         return res.status(200).json({
+//             success:true,
+//             data: userDetail.courses,
+//         })
+//     }catch(error){
+//         throw new Error(error.message);
+//     }
+// }
+
+exports.getEnrolledCourses = async (req, res) => {
+  try {
+    const userId = req.user.id
+    let userDetails = await User.findOne({
+      _id: userId,
+    })
+      .populate({
+        path: "courses",
+        populate: {
+          path: "courseContent",
+          populate: {
+            path: "subSection",
+          },
+        },
+      })
+      .exec()
+    userDetails = userDetails.toObject()
+    var SubsectionLength = 0
+    for (var i = 0; i < userDetails.courses.length; i++) {
+      let totalDurationInSeconds = 0
+      SubsectionLength = 0
+      for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {
+        totalDurationInSeconds += userDetails.courses[i].courseContent[
+          j
+        ].subSection.reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0)
+        userDetails.courses[i].totalDuration = convertSecondsToDuration(
+          totalDurationInSeconds
+        )
+        SubsectionLength +=
+          userDetails.courses[i].courseContent[j].subSection.length
+      }
+      let courseProgressCount = await CourseProgress.findOne({
+        courseID: userDetails.courses[i]._id,
+        userId: userId,
+      })
+      courseProgressCount = courseProgressCount?.completedVideos.length
+      if (SubsectionLength === 0) {
+        userDetails.courses[i].progressPercentage = 100
+      } else {
+        // To make it up to 2 decimal point
+        const multiplier = Math.pow(10, 2)
+        userDetails.courses[i].progressPercentage =
+          Math.round(
+            (courseProgressCount / SubsectionLength) * 100 * multiplier
+          ) / multiplier
+      }
     }
+
+    if (!userDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find user with id: ${userDetails}`,
+      })
+    }
+    return res.status(200).json({
+      success: true,
+      data: userDetails.courses,
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
 }
