@@ -8,14 +8,14 @@ const {deleteAccount,updateProfile,getAllUserDetails,getEnrolledCourses,updateDi
 //                                      Profile routes
 // ********************************************************************************************************
 
-router.delete("/deleteProfile",auth,deleteAccount)
-router.post("/cancelDeletion",auth,cancelAccountDeletion)
+router.delete("/deleteProfile", auth, deleteAccount)
+router.post("/cancelDeletion", auth, cancelAccountDeletion)
 
-router.put("/updateProfile",auth,updateProfile)
-router.put("/updateDisplayPicture",auth,updateDisplayPicture);
+router.put("/updateProfile", auth, updateProfile)
+router.put("/updateDisplayPicture", auth, updateDisplayPicture);
 
 
-router.get("/getUserDetails",auth,getAllUserDetails)
-router.get("/getEnrolledCourses",auth,getEnrolledCourses)
+router.get("/getUserDetails", auth, getAllUserDetails)
+router.get("/getEnrolledCourses", auth, getEnrolledCourses)
 
 module.exports = router
