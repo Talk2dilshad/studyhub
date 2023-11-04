@@ -8,7 +8,7 @@ import Heading from './Heading';
 
 const EnrolledCourses = () => {
 
-    const {token}  = useSelector((state) => state.auth);
+    const { token }  = useSelector((state) => state.auth);
     const navigate = useNavigate();
 
     const [enrolledCourses, setEnrolledCourses] = useState(null);
