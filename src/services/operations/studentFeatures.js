@@ -40,7 +40,7 @@ export async function BuyCourse(token,courses,user_details,navigate,dispatch){
         }
 
         const options = {
-            key:process.env.RAZORPAY_KEY,
+            key:process.env.REACT_APP_RAZORPAY_KEY,
             currency:orderResponse.data.data.currency,
             order_id: orderResponse.data.data.id,
             name:"Studyhub",
@@ -54,13 +54,15 @@ export async function BuyCourse(token,courses,user_details,navigate,dispatch){
                 sendPaymentSuccessEmail(response,orderResponse.data.data.amount,token)
             }
         }
-        const paymentObj =new window.Razorpay(options);
-
-        paymentObj.open();
-        paymentObj.on("payment.failed",function(response){
-            toast.error("Oops! payment failed")
+        const paymentObject = new window.Razorpay(options)
+        
+        paymentObject.open()
+        console.log("window open hua")
+        
+        paymentObject.on("payment.failed", function (response) {
+        toast.error("Oops! Payment Failed.")
+        console.log(response.error)
         })
-
 
     }catch(error){
         toast.error("Retry again")
@@ -72,6 +74,7 @@ export async function BuyCourse(token,courses,user_details,navigate,dispatch){
 // verify the payment 
 async function verifyPayment(bodyData,token,navigate,dispatch){
     dispatch(setPaymentLoading(true));
+    console.log("yaha pauch gya verify wala function")
     try{
         const response = await apiConnector("POST",
         COURSE_VERIFY_API,bodyData,{

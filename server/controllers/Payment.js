@@ -1,4 +1,5 @@
 const {instance} =require("../config/razorpay");
+const crypto = require("crypto");
 const Courses = require("../models/Courses");
 const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
@@ -171,8 +172,6 @@ const enrollStudent = async (courses,userId,res) => {
             courseEnrollmentEmail(enrolledCourse.courseName,
                 `${enrolledStudent.firstname} ${enrolledStudent.lastname}`)
             )
-
-            console.log("Email sent successfully: ", emailResponse.response)
             
             
         }catch(error){

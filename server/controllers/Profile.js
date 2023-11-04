@@ -3,6 +3,8 @@ const User = require("../models/User");
 // const cron = require('node-cron');
 const schedule = require('node-schedule');
 const {uploadToCloudinary}= require("../utils/imageUploader");
+const { convertSecondsToDuration } = require("../utils/secToDuration");
+const CourseProgress = require("../models/CourseProgress");
 
 exports.updateProfile = async(req,res) => {
     try{
@@ -185,16 +187,63 @@ exports.getEnrolledCourses = async (req,res) => {
         //steps find user > populate course if not then throw error else return data or move to catch block
 
         const userId = req.user.id;
-        const userDetail = User.findOne({_id:userId}).populate("courses").lean().exec();
+        let userDetail = await User.findOne({
+            _id: userId,
+          })
+            .populate({
+              path: "courses",
+              populate: {
+                path: "courseContent",
+                populate: {
+                  path: "subSection",
+                },
+              },
+            })
+            .exec()
+
+       
+        userDetail = userDetail.toObject()
+        
+
+        let SubsectionLength = 0;
+
+        for(let i=0;i<userDetail.courses.length;i++){
+            let totalDurationInSeconds = 0;
+            SubsectionLength = 0;
+            for(let j=0;j<userDetail.courses[i].courseContent.length;j++){
+                totalDurationInSeconds += userDetail.courses[i].courseContent[j].subSection.reduce((acc,curr) => acc+ parseInt(curr.timeDuration),0)
+
+                userDetail.courses[i].totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+                SubsectionLength += userDetail.courses[i].courseContent[j].subSection.length;
+            }
+
+            let courseProgressCount = await CourseProgress.findOne({courseId:userDetail.courses[i]._id,
+                userId:userId,
+            })
+
+            courseProgressCount = courseProgressCount?.completedVideos.length
+            if(SubsectionLength === 0){
+                userDetail.courses[i].progressPercentage = 100
+            } else {
+                // To make it up to 2 decimal point
+                const multiplier = Math.pow(10, 2)
+                userDetail.courses[i].progressPercentage =
+                  Math.round(
+                    (courseProgressCount / SubsectionLength) * 100 * multiplier
+                  ) / multiplier
+            }
+        }
 
         if(!userDetail) 
             return res.status(404).json({
                 success:false,
                 message:`not enrolled in any courses !`
             })
+        
         return res.status(200).json({
-            success:false,
-            data:userDetail.courses,
+            success:true,
+            data: userDetail.courses,
         })
     }catch(error){
         throw new Error(error.message);
