@@ -1,12 +1,13 @@
 import React from 'react'
 import RenderSteps from './RenderSteps'
+import Heading from '../Heading'
 
 const AddCourse = () => {
   return (
     <div className='flex  ml-12 items-start gap-x-6 mt-10 w-[90%] md:w-full overflow-x-hidden'>
         <div className='flex flex-1 flex-col'>
         <h1 className="mb-14 text-center text-3xl font-medium text-richblack-5">
-            Add Course
+          <Heading children={"Add Course"}/> 
         </h1>
             <div className='flex-1'>
                 <RenderSteps/>

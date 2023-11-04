@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import IconBtn from '../common/IconBtn';
 import InstructorCourses from './InstructorCourses/InstructorCourses';
+import Heading from './Heading';
 
 
 
@@ -28,7 +29,7 @@ const MyCourses = () => {
   return (
     <div className='flex-grow ml-[50px] md:ml-[100px]'>
         <div className='mb-14 mt-2 flex items-center justify-between'>
-            <h1 className='text-base md:text-xl lg:text-3xl font-medium text-richblack-25'>My Courses</h1>
+            <h1 className='text-base font-medium text-richblack-25 lg:w-full'><Heading children={"My Courses"}/></h1>
             <IconBtn
                 text={"create"}
                 onclick={() => navigate("/dashboard/add-course")}
