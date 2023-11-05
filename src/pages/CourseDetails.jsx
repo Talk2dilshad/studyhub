@@ -142,10 +142,21 @@ console.log("response data of Selected course ",response);
         <div className={`relative w-full`}>
             {/* for mobile & tablet only */}
             <div className="bg-richblack-800 fixed bottom-0 left-0 right-0 p-3 flex justify-between rounded-xl items-center lg:hidden z-[100]">
-            <p className="text-xl font-semibold text-richblack-5 ml-4 md:ml-20">₹ {price}</p>
+            {
+              (!user || !course?.StudentEnrolled.includes(user?._id))
+              &&<p className="space-x-2 text-xl font-semibold text-richblack-5 ">{price}
+              </p>
+
+            }
             <button
-            onClick={handleBuyCourse}
-            className="flex justify-center w-[65%] md:w-9/12 items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient px-4 text-richblack-5 rounded-full py-3 md:py-4">Buy Now</button>
+            onClick={ user && course?.StudentEnrolled.includes(user?._id) ?
+              () => navigate("/dashboard/enrolled-courses"): handleBuyCourse
+            }
+            className="flex justify-center w-[65%] md:w-9/12 items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient px-4 text-richblack-5 rounded-full py-3 md:py-4">
+              {user && course?.StudentEnrolled.includes(user?._id)
+                ? "Go To Course"
+                : "Buy Now"}
+            </button>
             </div>
 
 
@@ -212,9 +223,12 @@ console.log("response data of Selected course ",response);
             </div>
             
             <div className='lg:mb-10 flex flex-row w-full gap-3 py-4 items-center justify-center lg:hidden'>
-            <p className="space-x-2 text-xl font-semibold text-richblack-5 ">
-            ₹ {price}
+            {
+              (!user || !course?.StudentEnrolled.includes(user?._id))
+              &&<p className="space-x-2 text-xl font-semibold text-richblack-5 ">{price}
               </p>
+
+            }
             {/* button */}
             {
                 (!user || !course?.StudentEnrolled.includes(user?._id))

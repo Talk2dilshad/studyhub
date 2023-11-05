@@ -33,7 +33,7 @@ const MyCourses = () => {
             <IconBtn
                 text={"create"}
                 onclick={() => navigate("/dashboard/add-course")}
-                customClasses={"flex justify-center items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient md:px-3 md:py-3"}
+                customClasses={"flex justify-center items-center font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient px-3 py-3"}
             >
                 <VscAdd/>
            </IconBtn>

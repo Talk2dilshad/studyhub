@@ -22,28 +22,26 @@ exports.sendOTP= async(req,res) => {
         })
     }
     //generate otp
-    function otpGenerate(){
-        return otpGenerator.generate(6,{
-            upperCaseAlphabets:false,
-            lowerCaseAlphabets:false,
-            specialChars:false
-        })
+    async function otpGenerate(){
+        let otp;
+        let isUnique = false;
+
+        do{
+            otp = otpGenerator.generate(6,{
+                upperCaseAlphabets:false,
+                lowerCaseAlphabets:false,
+                specialChars:false
+            });
+            const existingOTP = await OTP.findOne({otp});
+            isUnique = !existingOTP;
+        }while(!isUnique);
+        
+        return otp;
     };
 
-    let otp = otpGenerate();
-    console.log("OTP generated : ",otp);
-
-
-
-    //check unique OTP
-    const unique_otp = await OTP.findOne({otp:otp});
+    const otp = await otpGenerate();
     
-    while(unique_otp)
-    {
-        console.log("unique otp firse mila hai ");
-        otp = otpGenerate();
-        unique_otp = await OTP.findOne({otp:otp});
-    }
+    console.log("OTP generated : ",otp);
 
     // CREATE ENTRY FOR OTP
     const otp_db = await OTP.create({email,otp});
