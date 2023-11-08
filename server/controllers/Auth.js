@@ -4,6 +4,7 @@ const otpGenerator = require("otp-generator");
 const Profile = require("../models/Profile");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const mailSender = require("../utils/mailSender");
 require("dotenv").config();
 
 //send OTP
@@ -221,11 +222,11 @@ exports.changePassword = async(req,res) =>{
     try{
     //get data from req body 
     //get oldPassword,newPassword,confirmPassword
-    const {email,oldPassword,newPassword,confirmNewPassword} = req.body;    
+    const {oldPassword,newPassword,confirmNewPassword} = req.body;    
     
     //validation 
     // check user exit in DB 
-    const user = await User.findOne({email});
+    const user = await User.findById(req.user.id);
     if(!user){
         return res.status(401).json({
             success:false,
@@ -241,27 +242,28 @@ exports.changePassword = async(req,res) =>{
         })
     }
     
-    //check oldpassword match in db
-    if(!(bcrypt.compare(oldPassword,user.password)))
-    {
-        return res.status(403).json({
-            success:false,
-            message:"invalid password,try again !"
-        })
+    // validate the old password
+    const isPasswordMatch = await bcrypt.compare(
+        oldPassword,user.password
+    )
+    if(!isPasswordMatch){
+        // if old password isn't valid
+        return res.status(401).json({success:false,message:"incorrect password"})
     }
+
     //Encrypt the new password
     //hash password
     const hashed_password = await bcrypt.hash(newPassword,10);
 
     //update pwd in db
     //find the user by the ID and replace the existing code
-    const updatedPost = await Post.findByIdAndUpdate(user,{$push:{password:hashed_password }},{new:true})
+    const updatedUser= await User.findByIdAndUpdate(req.user.id,{password:hashed_password},{new:true})
+
+
     //send mail -- password updated
     async function send_mail_to_user(){
         try{
-            const mailResponse = await mailSender(email,"Your StudyNotion Account was recovered successfully",
-            `<h2>Account recovered Successfully !</h2>`);
-            console.log("Email sent successfully");
+            const mailResponse = await mailSender(updatedUser.email,`Password updated successfully for ${updatedUser.firstname} ${updatedUser.lastname}`);
         }
         catch(err){
             console.log("error occured while sending mail",err);
@@ -270,14 +272,13 @@ exports.changePassword = async(req,res) =>{
     await send_mail_to_user();
     //return response
     return res.status(200).json({
-        success:true,
-        message:`Password changed ! ${Date.now()}`
+        success:true
     })
     }catch(error){
         console.log(error);
         return res.status(500).json({
             success:false,
-            message:"Come back Later, Server Busy"
+            message:"Error occurred while updating password"
         })
     }
 }

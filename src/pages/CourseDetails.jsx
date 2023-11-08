@@ -144,7 +144,7 @@ console.log("response data of Selected course ",response);
             <div className="bg-richblack-800 fixed bottom-0 left-0 right-0 p-3 flex justify-between rounded-xl items-center lg:hidden z-[100]">
             {
               (!user || !course?.StudentEnrolled.includes(user?._id))
-              &&<p className="space-x-2 text-xl font-semibold text-richblack-5 ">{price}
+              &&<p className="space-x-2 text-xl font-semibold text-richblack-5 ">₹ {price}
               </p>
 
             }
@@ -225,7 +225,7 @@ console.log("response data of Selected course ",response);
             <div className='lg:mb-10 flex flex-row w-full gap-3 py-4 items-center justify-center lg:hidden'>
             {
               (!user || !course?.StudentEnrolled.includes(user?._id))
-              &&<p className="space-x-2 text-xl font-semibold text-richblack-5 ">{price}
+              &&<p className="space-x-2 text-xl font-semibold text-richblack-5 ">₹ {price}
               </p>
 
             }
