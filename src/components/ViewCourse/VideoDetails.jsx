@@ -119,16 +119,17 @@ const VideoDetails = () => {
   }
   
   return (
-    <div className='flex flex-col text-white min-h-[calc(100vh-3.5rem)]'>
+    <div className='flex flex-col text-white lg:min-h-[calc(100vh-3.5rem)]'>
       {!videoData ? (<img src={previewSource} alt='preview' className="h-full w-full rounded-md object-cover "/>) 
       :
       (
+        
        <Player
          ref={playerRef}
          aspectRatio='16:9'
          onEnded={() => setVideoEnded(true)}
          src={videoData?.videoUrl}
-        className="min-h-[calc(100vh-3.5rem)] rounded-md"
+         className="mt-12"
        >
 
        </Player>
