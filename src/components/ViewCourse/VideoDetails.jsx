@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Player } from 'video-react';
+import { BigPlayButton, Player } from 'video-react';
 
 const VideoDetails = () => {
   const {courseId,sectionId,subSectionId} = useParams();
@@ -126,11 +126,14 @@ const VideoDetails = () => {
         
        <Player
          ref={playerRef}
+         playsInline
          aspectRatio='16:9'
          onEnded={() => setVideoEnded(true)}
          src={videoData?.videoUrl}
          className="mt-12"
        >
+        <BigPlayButton position='center'/>
+        {/* Render when video end */}
 
        </Player>
       )  

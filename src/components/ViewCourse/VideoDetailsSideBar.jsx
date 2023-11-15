@@ -60,8 +60,8 @@ const VideoDetailsSideBar = ({setReviewModal}) => {
                 >
                   <IoIosArrowBack  size={30}/>
                 </div>
-                <IconBtn text={"Add Review"} customClasses= {`ml-auto flex h-[35px] items-center justify-center rounded-full
-                  font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient mt-2 px-6 py-3 gap-2 w-[60%]`} 
+                <IconBtn text={"Add Review"} customClasses= {`ml-auto flex h-[40px] items-center justify-center rounded-full
+                  font-poppins xs:text-[20px] xs:leading-[27px] text-[16px] leading-[23px] font-poppins font-bold blue-gradient mt-2 px-6 py-5 gap-2 w-[60%]`} 
                   onclick={() =>setReviewModal(true) }
                 
                 />
