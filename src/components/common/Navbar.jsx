@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import logo from "../../assets/Logo/Logo-Small-Light.png"
 import {NavbarLinks} from "../../data/navbar-links"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {FiShoppingCart} from "react-icons/fi"
 import {TbLogin} from "react-icons/tb"
 import {PiUserCirclePlus} from "react-icons/pi"
 import ProfileDropdown from '../Auth/ProfileDropDown'
 import {BiSolidChevronDown} from "react-icons/bi"
 import { fetchCourseCategories } from '../../services/operations/courseDetailsAPI'
+import { setNavlink } from '../../slices/viewCourseSlice'
 
 const Navbar = () => {
   const instructor = "Instructor";
   const {token} = useSelector( (state) => state.auth);
   const {user} = useSelector( (state) => state.profile);
   const {totalItems} = useSelector( (state) => state.cart);
-
+  const {navLink} = useSelector( (state) => state.viewCourse);
+  const dispatch = useDispatch();
+  const location = useLocation();
   console.log(token,user,totalItems);
   
   //api call process
@@ -26,6 +29,15 @@ const Navbar = () => {
       setSubLinks(categories);
     }
   }
+
+  useEffect( () => {
+    // Check if the current location pathname doesn't contain 'view-course'
+    if (!location.pathname.includes('view-course')) {
+      dispatch(setNavlink(true));
+    } else 
+    dispatch(setNavlink(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[location.pathname])
 
   useEffect( () => {
     fetchSubLinks();
@@ -39,8 +51,10 @@ const Navbar = () => {
             <h2 className='text-xl font-medium'>StudyHub</h2>
            </Link>
 
+           
            {/* navlink */}
-           <nav className='items-center'>
+           {
+              navLink && (<nav className='items-center'>
               <ul className='flex gap-x-3 items-center'>
                 {
                   NavbarLinks.map( (link,index) =>(
@@ -74,14 +88,16 @@ const Navbar = () => {
                   ))
                 }
               </ul>
-           </nav>
+           </nav>)
+           }
+           
 
 
            {/* Login/signup/dashboard */}
            <div className='flex gap-x-3 items-center'>
             {/* cart logic */}
             {
-              user && user?.accountType !== instructor && (
+              user && navLink && user?.accountType !== instructor && (
                 <Link to='/dashboard/cart' className='relative'>
                   <FiShoppingCart size={20}/>
                   {

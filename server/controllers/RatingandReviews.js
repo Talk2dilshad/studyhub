@@ -1,5 +1,6 @@
-const Course = require("../models/Courses");
-const RatingandReviews = require("../models/RatingandReviews");
+const { default: mongoose } = require("mongoose");
+const Courses = require("../models/Courses");
+const RatingandReview = require("../models/RatingandReviews");
 
 
 //create rating
@@ -10,29 +11,36 @@ exports.createRating = async(req,res) => {
         const userId = req.user.id;
 
         const {rating,review,courseId} = req.body;
-        
+        console.log("rating review data from frontend",rating,review,courseId)
         //validation --enrolled
-        const courseEnrolled = await Course.findOne(
+        const courseEnrolled = await Courses.findOne(
                                     {
                                         _id:courseId,
-                                        StudentEnrolled: {$eleMatch: {$eq: userId}},
+                                        StudentEnrolled: {$elemMatch: {$eq: userId}},
                                     });
+        
+        if(courseEnrolled){
+            console.log("yes")
+        }
+
         if(!courseEnrolled) throw new Error("you are not enrolled in the course");
-        //validation --user already reviews ---check userId exist ? & courseId ?
-        const courseReviewed  = await RatingandReviews.findOne({
+        //validation --user already reviews --- check userId exist ? & courseId ?
+        const courseReviewed  = await RatingandReview.findOne({
                                 user:userId,course:courseId
         })
+        console.log("course reviewed ? ",courseReviewed)
         if(courseReviewed) throw new Error("Sorry you already reviewed !!");
 
         //creating rating review
-        const ratingReview = await RatingandReviews.create({
+        const ratingReview = await RatingandReview.create({
                             rating,review,course:courseId,user:userId
         });
 
         //update course rating review
-        const updatedCourseDetails =  await Course.findByIdAndUpdate({_id:courseId},{
+        const updatedCourseDetails =  await Courses.findByIdAndUpdate(courseId,{
                     $push:{ratingandReviews:ratingReview._id}
         },{new:true});
+
         console.log(updatedCourseDetails);
         //return response
         return res.status(200).json({
@@ -68,8 +76,7 @@ exports.AverageRating = async(req,res) => {
     const courseId = req.body.courseId;
 
     //calculate average
-    const average = await RatingandReviews.aggregate([
-        
+    const average = await RatingandReview.aggregate([
     //stage1
     {// why mongoose.ObjectId ? to convert string to object
         $match:{course: new mongoose.Types.ObjectId(courseId)}
@@ -110,7 +117,7 @@ exports.AverageRating = async(req,res) => {
 exports.getAllRating = async(req,res) =>{
     try{
 
-        const allReview = await RatingandReviews.find({}).sort({rating:"descending"})
+        const allReview = await RatingandReview.find({}).sort({rating:"descending"})
                                                     .populate({path:"user",
                                                                 select:"firstname lastname email profile_pic"
                                                             })
@@ -123,7 +130,6 @@ exports.getAllRating = async(req,res) =>{
             data: allReview
         })
     }catch{
-        console.log(error);
         
     }
 }

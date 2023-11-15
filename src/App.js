@@ -25,11 +25,12 @@ import MyCourses from './components/dashboard/MyCourses';
 import EditCourse from './components/dashboard/EditCourse/EditCourse';
 import Explore from './pages/Explore';
 import CourseDetails from './pages/CourseDetails';
-import VideoDetails from './components/ViewCourse/VideoDetails';
+import VideoDetails from './components/ViewCourse/VideoDetails.jsx';
 import ViewCourse from './pages/ViewCourse';
 
 function App() {
   const {user} = useSelector( (state) => state.profile)
+  
 
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">

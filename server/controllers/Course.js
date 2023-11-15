@@ -149,13 +149,14 @@ exports.getCourseDetails = async(req,res) => {
                                 }
                             })
                         .populate("category")
+                        .populate("ratingandReviews")
                         .populate({
                             path:"courseContent",
                             populate:
                             {path:"subSection",select: "-videoUrl",}
                         }).exec();
 
-                        
+                       
         console.log("populating ...",courseDetails)
         //validation
         if(!courseDetails) throw new Error(`invalid courseId : ${courseId}`)
@@ -332,6 +333,7 @@ exports.getFullCourseDetails = async(req,res)=>{
         const courseDetails = await Courses.findOne({_id:courseId})
         .populate({path:"instructor",populate:{path:"profile"}})
         .populate("category")
+        .populate("ratingandReviews")
         .populate({
             path: "courseContent",
             populate: {
@@ -339,11 +341,7 @@ exports.getFullCourseDetails = async(req,res)=>{
             },
         })
         .exec()
-        // Check if the field exists before populating
-        if (courseDetails && courseDetails.ratingAndReviews) {
-            await courseDetails.populate("ratingAndReviews").execPopulate();
-        }
-        
+       
         
     
     let courseProgressCount = await CourseProgress.findOne({
