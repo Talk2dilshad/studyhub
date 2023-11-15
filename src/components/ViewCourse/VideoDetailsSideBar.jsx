@@ -77,7 +77,7 @@ const VideoDetailsSideBar = ({setReviewModal}) => {
           <div className='h-[calc(100vh -5rem)] overflow-y-auto'>
             {
               courseSectionData.map( (course,index) => (
-                <div className='mt-2 cursor-pointer text-sm text-richblack-5 duration-200 ease-in' onClick={() => setActiveStatus(course?._id)} key={index}>
+                <div className='mt-2 cursor-pointer  text-richblack-5 duration-200 ease-in' onClick={() => setActiveStatus(course?._id)} key={index}>
                   {/* section */}
                   <div className='flex flex-row justify-between bg-richblack-800 px-5 py-4'>
                      <div className='w-[70%] font-semibold'>
