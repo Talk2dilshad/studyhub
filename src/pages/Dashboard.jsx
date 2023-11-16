@@ -19,7 +19,6 @@ const Dashboard = () => {
         </div>
         )
     }
-    console.log("dashboard called");
 
     return (
       <div className="relative flex min-h-full mt-5">

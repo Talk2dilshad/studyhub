@@ -12,7 +12,6 @@ const Sidebar = () => {
   const { user, loading: profileLoading } = useSelector(
     (state) => state.profile
   );
-  console.log("sidebar called ", user);
   const { loading: authLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();

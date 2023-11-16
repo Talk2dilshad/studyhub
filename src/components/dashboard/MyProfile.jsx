@@ -13,7 +13,6 @@ const MyProfile = () => {
   // Destructure profile properties from the user object
   const { firstname, lastname, email, profile } = user;
   const { gender, dob, about, contactNumber } = profile || {};
-  console.log("profile destrcuture ",gender,dob,about,contactNumber)
 
   return (
     <div className="flex-grow ml-[50px] md:ml-[220px]">

@@ -28,8 +28,7 @@ async function sendVerificationEmail(email,otp){
         console.log("error occured while sending mail",err);
     }
 } 
-OTPSchema.pre("save",async function(next){
-    await sendVerificationEmail(this.email,this.otp);
-    next();
+OTPSchema.post("save",async function(doc){
+    await sendVerificationEmail(doc.email,doc.otp);
 });
 module.exports= mongoose.model("OTP",OTPSchema);

@@ -19,7 +19,6 @@ const Navbar = () => {
   const {navLink} = useSelector( (state) => state.viewCourse);
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log(token,user,totalItems);
   
   //api call process
   const [subLinks,setSubLinks] = useState([]);

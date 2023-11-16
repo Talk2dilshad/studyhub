@@ -109,9 +109,6 @@ const Explore = () => {
             </div>
             <div className='py-8'>
                 {/* course slider */}
-                {
-                  console.log("section 2 explore ",catalogPageData?.data?.differentCategory?.courses)
-                }
                 <CourseSlider
                 Courses={catalogPageData?.data?.differentCategory?.courses}
               />

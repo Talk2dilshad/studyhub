@@ -134,7 +134,7 @@ const VideoDetails = () => {
        >
         <BigPlayButton position='center'/>
         {/* Render when video end */}
-
+          
        </Player>
       )  
     }
