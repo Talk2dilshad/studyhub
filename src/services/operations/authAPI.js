@@ -69,7 +69,6 @@ export function signUp(
         otp,
       })
 
-      console.log("SIGNUP API RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -77,7 +76,6 @@ export function signUp(
       toast.success("Signup Successful")
       navigate("/login")
     } catch (error) {
-      console.log("SIGNUP API ERROR............", error)
       toast.error("Signup Failed")
       navigate("/signup")
     }
@@ -97,7 +95,6 @@ export function login(email, password, navigate) {
         password,
       })
 
-      console.log("LOGIN API RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -106,13 +103,12 @@ export function login(email, password, navigate) {
       toast.success("Login Successful")
       dispatch(setToken(response.data.token))
       const userImage = response.data?.user?.profile_pic
-        ? response.data.user.profile_pic
-        : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstname} ${response.data.user.lastname}`
-      
+
       const encryptedToken = CryptoJS.AES.encrypt(response.data.token, secretKey).toString();
       localStorage.setItem("token", encryptedToken);
       
       dispatch(setUser({ ...response.data.user, profile_pic: userImage }))
+      
       const encryptedUser = CryptoJS.AES.encrypt(
         JSON.stringify({ ...response.data.user, profile_pic: userImage }),
         secretKey

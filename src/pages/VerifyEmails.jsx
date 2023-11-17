@@ -9,6 +9,7 @@ import {PiClockClockwise} from "react-icons/pi"
 const VerifyEmails = () => {
     const [otp,setOtp] = useState("");
     const dispatch = useDispatch();
+    const {loading} = useDispatch( (state) => state.auth);
     const {signupData} = useSelector( (state) => state.auth);
     const navigate = useNavigate();
   
@@ -74,7 +75,7 @@ const VerifyEmails = () => {
                 renderInput={(props) => <input {...props} />}
               />
               </div>
-              <button className='mt-6 w-full rounded-[8px] bg-yellow-50 py-[12px] px-[12px] font-medium text-richblack-900'  type='submit'>Verify Email</button>
+              <button className='mt-6 w-full rounded-[8px] bg-yellow-50 py-[12px] px-[12px] font-medium text-richblack-900'  type='submit'  disabled={loading}>Verify Email</button>
             </form>
             <div className='mt-6 flex items-center justify-between'>
             <div className='w-[45%] text-white'>
