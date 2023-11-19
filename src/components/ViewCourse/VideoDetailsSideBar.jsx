@@ -94,7 +94,7 @@ const VideoDetailsSideBar = ({setReviewModal}) => {
       {activeStatus === course?._id && (
         <div className='transition-[height] duration-500 ease-in'>
             {course?.subSection.map((topic,i) => (
-              <div className={`flex gap-3 px-5 py-3 w-full h-full ${videoBarActive === topic._id ? "bg-richblack-700 font-medium" : ""}`}
+              <div className={`flex gap-3 px-5 py-3 w-full h-full items-center  ${videoBarActive === topic._id ? "bg-richblack-700 font-medium" : ""}`}
               key={i} 
               onClick={ () => {
                 navigate(`/view-course/${courseEntireData?._id}/section/${course?._id}/sub-section/${topic?._id}`)
@@ -104,12 +104,13 @@ const VideoDetailsSideBar = ({setReviewModal}) => {
                   <input type="checkbox" 
                   checked={completedLectures.includes(topic?._id)}
                   onChange={() => {}}
+                  className="h-4 w-4 rounded border-gray-300 mr-2 focus:ring-indigo-500"
                   />
                   {topic.title}
-              </div>
-            ))}
-        </div>
-      )}
+                  </div>
+                ))}
+            </div>
+          )}
                 </div>
               ))
             }
