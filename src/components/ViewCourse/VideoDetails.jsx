@@ -4,9 +4,12 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { BigPlayButton, Player } from 'video-react';
+import IconBtn from '../common/IconBtn';
+import { markLectureAsComplete } from '../../services/operations/courseDetailsAPI';
+import {updateCompletedLectures} from "../../slices/viewCourseSlice"
 
 const VideoDetails = () => {
-  const {courseId,sectionId,subSectionId} = useParams();
+  const { courseId, sectionId, subSectionId } = useParams()
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -34,26 +37,28 @@ const VideoDetails = () => {
           (data) => data._id === subSectionId
         )
 
-        setVideoData(filteredVideoData[0])
-        setPreviewSource(courseEntireData.thumbnail)
-        setVideoEnded(false)
+        if (filteredVideoData && filteredVideoData.length > 0) {
+          setVideoData(filteredVideoData[0]);
+          setPreviewSource(courseEntireData.thumbnail);
+          setVideoEnded(false);
+        }
       }
     })();
   },[courseSectionData, courseEntireData, location.pathname]);
   
-  const isFirstVideo = () => {
-    const currentSectionIndx = courseSectionData.findIndex(
-      (data) => data._id === sectionId
-    )
+  // const isFirstVideo = () => {
+  //   const currentSectionIndx = courseSectionData.findIndex(
+  //     (data) => data._id === sectionId
+  //   )
 
-    const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex( (data) => data._id === subSectionId);
+  //   const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex( (data) => data._id === subSectionId);
 
-    if (currentSectionIndx === 0 && currentSubSectionIndx === 0) {
-      return true
-    } else {
-      return false
-    }
-  }
+  //   if (currentSectionIndx === 0 && currentSubSectionIndx === 0) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
 
   const goToNextVideo = () => {
     const currentSectionIndx = courseSectionData.findIndex(
@@ -77,6 +82,7 @@ const VideoDetails = () => {
         `/view-course/${courseId}/section/${nextSectionId}/sub-section/${nextSubSectionId}`
       )
     }
+  }
 
     // check if the lecture is the last video of the course
     const isLastVideo = () => {
@@ -86,7 +92,7 @@ const VideoDetails = () => {
 
       const noOfSubsections = courseSectionData[currentSectionIndx].subSection.length;
 
-      const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex((data) => data._d === subSectionId)
+      const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex((data) => data._id === subSectionId)
 
       if(currentSectionIndx === courseSectionData.length - 1 && 
         currentSubSectionIndx === noOfSubsections - 1)
@@ -95,29 +101,43 @@ const VideoDetails = () => {
       }
       else { return false}
     }
-  }
-
-  const goToPrevVideo = () => {
-    const currentSectionIndx  = courseSectionData.findIndex(
-      (data) => data._id === sectionId
-    )
-    const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex((data) => data._id === subSectionId)
-
-    if(currentSubSectionIndx !== 0) {
-      const prevSubSectionId = courseSectionData[currentSectionIndx].subSection[currentSectionIndx - 1]._id
-      navigate(
-        `/view-course/${courseId}/section/${sectionId}/sub-section/${prevSubSectionId}`
-      )
-    }else{
-      const prevSectionId = courseSectionData[currentSectionIndx - 1]._id;
-     const prevSubSectionLength = courseSectionData[currentSectionIndx - 1].subSection.length;
-     const prevSubSectionId = courseSectionData[currentSectionIndx - 1].subSection[prevSubSectionLength - 1]._id;
-     navigate(
-      `/view-course/${courseId}/section/${prevSectionId}/sub-section/${prevSubSectionId}`
-    )
-    }
-  }
   
+
+  // const goToPrevVideo = () => {
+  //   const currentSectionIndx  = courseSectionData.findIndex(
+  //     (data) => data._id === sectionId
+  //   )
+  //   const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex((data) => data._id === subSectionId)
+
+  //   if(currentSubSectionIndx !== 0) {
+  //     const prevSubSectionId = courseSectionData[currentSectionIndx].subSection[currentSectionIndx - 1]._id
+  //     navigate(
+  //       `/view-course/${courseId}/section/${sectionId}/sub-section/${prevSubSectionId}`
+  //     )
+  //   }else{
+  //     const prevSectionId = courseSectionData[currentSectionIndx - 1]._id;
+  //    const prevSubSectionLength = courseSectionData[currentSectionIndx - 1].subSection.length;
+  //    const prevSubSectionId = courseSectionData[currentSectionIndx - 1].subSection[prevSubSectionLength - 1]._id;
+  //    navigate(
+  //     `/view-course/${courseId}/section/${prevSectionId}/sub-section/${prevSubSectionId}`
+  //   )
+  //   }
+  // }
+  
+  const handleLectureComplete = async() => {
+    setLoading(true);
+    const res = await markLectureAsComplete({courseId,subSectionId},token);
+    if(res){
+      dispatch(updateCompletedLectures(subSectionId))
+    }
+    if(!isLastVideo()){
+      goToNextVideo();
+    }
+    setLoading(false);
+  }
+
+
+
   return (
     <div className='flex flex-col text-white lg:min-h-[calc(100vh-3.5rem)]'>
       {!videoData ? (<img src={previewSource} alt='preview' className="h-full w-full rounded-md object-cover "/>) 
@@ -134,10 +154,27 @@ const VideoDetails = () => {
        >
         <BigPlayButton position='center'/>
         {/* Render when video end */}
-          
+          {videoEnded && (
+            <div  style={{
+              backgroundImage:
+                "linear-gradient(to top, rgb(0, 0, 0), rgba(0,0,0,0.7), rgba(0,0,0,0.5), rgba(0,0,0,0.1)",
+            }}
+            className="full absolute inset-0 z-[100] grid h-full place-content-center font-inter">
+              {!completedLectures.includes(subSectionId) && (
+                <IconBtn
+                 disabled={loading}
+                 onclick={() => handleLectureComplete()}
+                 text={!loading ? "Mark As Completed":"Loading..."}
+                 customClasses="text-xl max-w-max px-4 mx-auto"
+                />
+              )}
+
+            </div>
+          )}
        </Player>
       )  
     }
+    <h1 className="mt-4 text-3xl font-semibold">{videoData?.title}</h1>
     </div>
   )
 }

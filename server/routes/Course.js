@@ -20,6 +20,7 @@ const {AverageRating,getAllRating,createRating} = require("../controllers/Rating
 
 //middleware
 const {auth,isStudent,isAdmin, isInstructor} = require("../middlewares/auth");
+const { updateCourseProgress } = require("../controllers/courseProgress");
 /// ********************************************************************************************************
 //                                      Course routes
 // *********************************************************************************************************
@@ -44,6 +45,9 @@ router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
 //Get courses
 router.post("/getAllCourses",getAllCourses)
 router.post("/getCourseDetails",getCourseDetails)
+
+//To Update the course Progress
+router.post("/updateCourseProgress",auth,isStudent,updateCourseProgress)
 
 // Category can Only be Created by Admin
 router.post("/createCategory", auth, isAdmin, createCategory)
