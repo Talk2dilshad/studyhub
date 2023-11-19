@@ -46,19 +46,19 @@ const VideoDetails = () => {
     })();
   },[courseSectionData, courseEntireData, location.pathname]);
   
-  // const isFirstVideo = () => {
-  //   const currentSectionIndx = courseSectionData.findIndex(
-  //     (data) => data._id === sectionId
-  //   )
+  const isFirstVideo = () => {
+    const currentSectionIndx = courseSectionData.findIndex(
+      (data) => data._id === sectionId
+    )
 
-  //   const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex( (data) => data._id === subSectionId);
+    const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex( (data) => data._id === subSectionId);
 
-  //   if (currentSectionIndx === 0 && currentSubSectionIndx === 0) {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
+    if (currentSectionIndx === 0 && currentSubSectionIndx === 0) {
+      return true
+    } else {
+      return false
+    }
+  }
 
   const goToNextVideo = () => {
     const currentSectionIndx = courseSectionData.findIndex(
@@ -103,26 +103,26 @@ const VideoDetails = () => {
     }
   
 
-  // const goToPrevVideo = () => {
-  //   const currentSectionIndx  = courseSectionData.findIndex(
-  //     (data) => data._id === sectionId
-  //   )
-  //   const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex((data) => data._id === subSectionId)
+  const goToPrevVideo = () => {
+    const currentSectionIndx  = courseSectionData.findIndex(
+      (data) => data._id === sectionId
+    )
+    const currentSubSectionIndx = courseSectionData[currentSectionIndx].subSection.findIndex((data) => data._id === subSectionId)
 
-  //   if(currentSubSectionIndx !== 0) {
-  //     const prevSubSectionId = courseSectionData[currentSectionIndx].subSection[currentSectionIndx - 1]._id
-  //     navigate(
-  //       `/view-course/${courseId}/section/${sectionId}/sub-section/${prevSubSectionId}`
-  //     )
-  //   }else{
-  //     const prevSectionId = courseSectionData[currentSectionIndx - 1]._id;
-  //    const prevSubSectionLength = courseSectionData[currentSectionIndx - 1].subSection.length;
-  //    const prevSubSectionId = courseSectionData[currentSectionIndx - 1].subSection[prevSubSectionLength - 1]._id;
-  //    navigate(
-  //     `/view-course/${courseId}/section/${prevSectionId}/sub-section/${prevSubSectionId}`
-  //   )
-  //   }
-  // }
+    if(currentSubSectionIndx !== 0) {
+      const prevSubSectionId = courseSectionData[currentSectionIndx].subSection[currentSectionIndx - 1]._id
+      navigate(
+        `/view-course/${courseId}/section/${sectionId}/sub-section/${prevSubSectionId}`
+      )
+    }else{
+      const prevSectionId = courseSectionData[currentSectionIndx - 1]._id;
+     const prevSubSectionLength = courseSectionData[currentSectionIndx - 1].subSection.length;
+     const prevSubSectionId = courseSectionData[currentSectionIndx - 1].subSection[prevSubSectionLength - 1]._id;
+     navigate(
+      `/view-course/${courseId}/section/${prevSectionId}/sub-section/${prevSubSectionId}`
+    )
+    }
+  }
   
   const handleLectureComplete = async() => {
     setLoading(true);
@@ -169,8 +169,41 @@ const VideoDetails = () => {
                 />
               )}
 
+
+          <IconBtn
+              disabled={loading}
+              onclick={() => {
+                if (playerRef?.current) {
+                  // set the current time of the video to 0
+                  playerRef?.current?.seek(0)
+                  setVideoEnded(false)
+                }
+              }}
+              text="Rewatch"
+              customClasses="text-xl max-w-max px-4 mx-auto mt-2"
+            />
+            <div className="mt-10 flex min-w-[250px] justify-center gap-x-4 text-xl">
+              {!isFirstVideo() && (
+                <button
+                  disabled={loading}
+                  onClick={goToPrevVideo}
+                  className="blackButton"
+                >
+                  Prev
+                </button>
+              )}
+              {!isLastVideo() && (
+                <button
+                  disabled={loading}
+                  onClick={goToNextVideo}
+                  className="blackButton"
+                >
+                  Next
+                </button>
+              )}
             </div>
-          )}
+          </div>
+        )}
        </Player>
       )  
     }
