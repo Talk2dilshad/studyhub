@@ -93,7 +93,7 @@ exports.resetPassword = async (req, res) => {
 		const user =await User.findById({_id:userId})
 		const name = user.firstname;
 		const emailbody = passwordUpdated(user.email,name)
-		await mailSender(user.email,"StudyNotion - password updated !",emailbody);
+		await mailSender(user.email,"StudyHub - password updated !",emailbody);
 		
 		res.json({
 			success: true,
